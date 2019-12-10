@@ -21,11 +21,26 @@ public class bola : MonoBehaviour {
         //Accede al componente del rigibody y aplicamos la fuerza de torque
         GetComponent<Rigidbody>().AddTorque(_aplicarFuerza, ForceMode.Force);
 
+  
+
+        //Posicionar un objeto con el componente Rigibody usando su metodo position
+        if (Input.GetKey(KeyCode.Space))
+        {
+           
+                //_fuerzaImpulso += 20;
+                Debug.Log("PULSADO! = " + _fuerzaImpulso+20);
+            
+
+        }
+        /*if (!Input.GetKeyDown(KeyCode.Space))
+            Lanzar();*/
+        Debug.Log("FUERA");
+    }
+
+    public void Lanzar() {
         //Nota: GetButtonDown devuelve verdad o falso segun si se pulso y GetAxis 0 1 o -1 segun si se pulso, no se pulso o si se pulso  dercha o izquierda
         //Fuerza de impulso "Aplicamos una fuerza de impulso sobre el eje Z
         if (Input.GetButtonDown("Vertical"))
-            GetComponent<Rigidbody>().AddForce(Vector3.forward * _fuerzaImpulso * Time.deltaTime,ForceMode.Impulse);
-
-        //Posicionar un objeto con el componente Rigibody usando su metodo position
-	}
+            GetComponent<Rigidbody>().AddForce(Vector3.forward * _fuerzaImpulso * Time.deltaTime, ForceMode.Impulse);
+    }
 }
