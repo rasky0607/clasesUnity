@@ -3,7 +3,17 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - bolo1
+  - bolo2
+  - bolo3
+  - bolo4
+  - bolo5
+  - bolo6
+  - bolo7
+  - bolo8
+  - bolo9
+  - bolo10
   layers:
   - Default
   - TransparentFX
