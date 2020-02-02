@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657838, g: 0.49641234, b: 0.57481676, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -145,7 +145,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.010000001, y: 0.880674}
   m_AnchorMax: {x: 0.13900001, y: 1}
-  m_AnchoredPosition: {x: 34.5, y: -3.800003}
+  m_AnchoredPosition: {x: 34.5, y: -3.7999878}
   m_SizeDelta: {x: 69, y: -8}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &34217635
@@ -537,7 +537,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.16274469, y: 0.80859566}
   m_AnchorMax: {x: 0.35125533, y: 0.8618653}
-  m_AnchoredPosition: {x: 22.899994, y: 2.300003}
+  m_AnchoredPosition: {x: 22.899963, y: 2.2999878}
   m_SizeDelta: {x: -6, y: 3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &107878682
@@ -1473,6 +1473,7 @@ GameObject:
   - component: {fileID: 447686865}
   - component: {fileID: 447686870}
   - component: {fileID: 447686869}
+  - component: {fileID: 447686871}
   m_Layer: 0
   m_Name: bola
   m_TagString: Untagged
@@ -1561,11 +1562,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2265cb47bb55d47fd80aed69a673f439, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  img: {fileID: 0}
   sliderFuerza: {fileID: 2070251628}
   textFuerza: {fileID: 77024721}
   sliderPrecision: {fileID: 107878682}
   textPrecision: {fileID: 1747385448}
+  sonidoBola: {fileID: 447686871}
 --- !u!54 &447686870
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1581,6 +1582,101 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!82 &447686871
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 447686864}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: ca3f6524663d340aca2fb05feac442cd, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &471774240
 GameObject:
   m_ObjectHideFlags: 0
@@ -5282,7 +5378,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.39925534, y: 0.7928653}
   m_AnchorMax: {x: 0.5506737, y: 0.880674}
-  m_AnchoredPosition: {x: 11, y: -0.5999985}
+  m_AnchoredPosition: {x: 11, y: -0.6000061}
   m_SizeDelta: {x: 15, y: 2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1747385448
@@ -5658,7 +5754,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.010000001, y: 0.7928653}
   m_AnchorMax: {x: 0.13900001, y: 0.84932613}
-  m_AnchoredPosition: {x: 34.5, y: 1.300003}
+  m_AnchoredPosition: {x: 34.5, y: 1.2999878}
   m_SizeDelta: {x: 69, y: 12}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1806226074
@@ -5817,6 +5913,7 @@ GameObject:
   - component: {fileID: 1866070052}
   - component: {fileID: 1866070051}
   - component: {fileID: 1866070056}
+  - component: {fileID: 1866070057}
   m_Layer: 0
   m_Name: disparadorDecaidaBolos
   m_TagString: Untagged
@@ -5845,6 +5942,7 @@ MonoBehaviour:
   bolo8: {fileID: 471774242}
   bolo9: {fileID: 1398527112}
   bolo10: {fileID: 719211418}
+  sonidoBolos: {fileID: 1866070057}
 --- !u!65 &1866070052
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5927,6 +6025,101 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!82 &1866070057
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1866070050}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: dda7e0f07a7b5408e9260687f1575979, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &1909747273
 GameObject:
   m_ObjectHideFlags: 0
@@ -6219,7 +6412,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.16274469, y: 0.95313483}
   m_AnchorMax: {x: 0.35125533, y: 1}
-  m_AnchoredPosition: {x: 22.899994, y: -11.600006}
+  m_AnchoredPosition: {x: 22.899963, y: -11.600006}
   m_SizeDelta: {x: -6, y: 5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2070251628

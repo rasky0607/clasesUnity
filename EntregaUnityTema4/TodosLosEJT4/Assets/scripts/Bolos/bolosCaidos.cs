@@ -14,19 +14,10 @@ public class bolosCaidos : MonoBehaviour {
 	public Image bolo8;
 	public Image bolo9;
 	public Image bolo10;
+    public AudioSource sonidoBolos;
+
 	// Use this for initialization
 	void Start () {
-		bolo1 = GameObject.Find("ImageBolo1").GetComponent<Image>();
-		/*bolo1.sprite = Resources.Load<Sprite>("puntacion/boloPuntuacion");//Cargamos la imagen
-		bolo2.sprite = Resources.Load<Sprite>("puntacion/boloPuntuacion");//Cargamos la imagen
-		bolo3.sprite = Resources.Load<Sprite>("puntacion/boloPuntuacion");//Cargamos la imagen
-		bolo4.sprite = Resources.Load<Sprite>("puntacion/boloPuntuacion");//Cargamos la imagen
-		bolo5.sprite = Resources.Load<Sprite>("puntacion/boloPuntuacion");//Cargamos la imagen
-		bolo6.sprite = Resources.Load<Sprite>("puntacion/boloPuntuacion");//Cargamos la imagen
-		bolo7.sprite = Resources.Load<Sprite>("puntacion/boloPuntuacion");//Cargamos la imagen
-		bolo8.sprite = Resources.Load<Sprite>("puntacion/boloPuntuacion");//Cargamos la imagen
-		bolo9.sprite = Resources.Load<Sprite>("puntacion/boloPuntuacion");//Cargamos la imagen
-		bolo10.sprite = Resources.Load<Sprite>("puntacion/boloPuntuacion");//Cargamos la imagen*/
 
 	}
 	
@@ -42,47 +33,36 @@ public class bolosCaidos : MonoBehaviour {
      este es el que tiene asociado este Script "bolosCaidos.cs" ,cuandola cabeza de un bolo sale del colider de este, es identificado por el tag*/
     private void OnTriggerExit(Collider other)
     {
-		Debug.Log("AQUI TOY");
+        sonidoBolos.Play();
 		switch (other.tag) {
 			case "bolo1":
-				Debug.Log("Bolo 1 CAIDO!");
-                
                 bolo1.sprite = Resources.Load<Sprite>("aspa");//Cargamos la imagen
 				break;
 			case "bolo2":
-				Debug.Log("Bolo 2 CAIDO!");
 				bolo2.sprite = Resources.Load<Sprite>("aspa");//Cargamos la imagen
 				break;
 			case "bolo3":
-				Debug.Log("Bolo 3 CAIDO!");
 				bolo3.sprite = Resources.Load<Sprite>("aspa");//Cargamos la imagen
 				break;
 			case "bolo4":
-				Debug.Log("Bolo 4 CAIDO!");
 				bolo4.sprite = Resources.Load<Sprite>("aspa");//Cargamos la imagen
 				break;
 			case "bolo5":
-				Debug.Log("Bolo 5 CAIDO!");
 				bolo5.sprite = Resources.Load<Sprite>("aspa");//Cargamos la imagen
 				break;
 			case "bolo6":
-				Debug.Log("Bolo 6 CAIDO!");
 				bolo6.sprite = Resources.Load<Sprite>("aspa");//Cargamos la imagen
 				break;
 			case "bolo7":
-				Debug.Log("Bolo 7 CAIDO!");
 				bolo7.sprite = Resources.Load<Sprite>("aspa");//Cargamos la imagen
 				break;
 			case "bolo8":
-				Debug.Log("Bolo 8 CAIDO!");
 				bolo8.sprite = Resources.Load<Sprite>("aspa");//Cargamos la imagen
 				break;
 			case "bolo9":
-				Debug.Log("Bolo 9 CAIDO!");
 				bolo9.sprite = Resources.Load<Sprite>("aspa");//Cargamos la imagen
 				break;
 			case "bolo10":
-				Debug.Log("Bolo 10 CAIDO!");
 				bolo10.sprite = Resources.Load<Sprite>("aspa");//Cargamos la imagen
 				break;		
 		}

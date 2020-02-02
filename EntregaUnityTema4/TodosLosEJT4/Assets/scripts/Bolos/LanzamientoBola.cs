@@ -4,8 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class LanzamientoBola : MonoBehaviour {
-
-	public Image img;
 	Rigidbody rb;
 	public Slider sliderFuerza;//muestra el usuario la fuerza con la que va lanzar
 	public Text textFuerza;//Especifica la cantidad de fuerza que se muestra en el slider
@@ -16,8 +14,12 @@ public class LanzamientoBola : MonoBehaviour {
 	bool subiendoValorTorque = true; //Bandera que indica  al slider de Precision cuando la esta incrementando la fuerzaTorqueVaraible hasta 5 y cuando la esta decrementando hasta-5
 	float velocidadDesplazHorizontal = 0.2F;//velocidad de desplazamiento horizontal de la bola
 	bool funcionamientoSliderPrecision = true;
-	// Use this for initialization
-	void Start () {
+
+    //Sonido
+    public AudioSource sonidoBola;
+
+    // Use this for initialization
+    void Start () {
 		rb = GetComponent<Rigidbody>();
 		sliderFuerza.value = fuerzaLanzamiento;
 		textFuerza.text = "0";
@@ -50,7 +52,8 @@ public class LanzamientoBola : MonoBehaviour {
 
 		//Cuando soltamos la Space, lanzamos la bola
 		if (Input.GetKeyUp(KeyCode.Space))
-		{		
+		{
+            sonidoBola.Play();//activamos sonido
 			rb.AddForce(new Vector3(transform.position.x, transform.position.y, transform.position.z * -fuerzaLanzamiento), ForceMode.Impulse);
 			rb.AddTorque(new Vector3(transform.position.x, transform.position.y, transform.position.z* fuerzaTorqueVaraible), ForceMode.Impulse);
         }
@@ -62,7 +65,6 @@ public class LanzamientoBola : MonoBehaviour {
 	}
 
 	public void FuncionamientoSliderPrecision() {
-		Debug.Log("Estado flag: " + subiendoValorTorque + " Valor: " + sliderPrecision.value);
 		if (sliderPrecision.value > -5 && subiendoValorTorque)//Empezamos a decrementar el valor (la bola  va hacia la izquierda) 
 		{
 			//Solo decrementamos el valor
