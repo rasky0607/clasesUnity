@@ -15,6 +15,7 @@ TagManager:
   - bolo9
   - bolo10
   - bola
+  - obstaculo
   layers:
   - Default
   - TransparentFX

@@ -11,4 +11,19 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/billar.unity
     guid: 99c9720ab356a0642a771bea13969a05
+  - enabled: 1
+    path: Assets/Scenes/cinematicaYfisica.unity
+    guid: 4d2946a331f2b444aa7cd63ab0a3539c
+  - enabled: 1
+    path: Assets/Scenes/golpear.unity
+    guid: 300b226bfd2e040f7aa1ee57f74a9fa7
+  - enabled: 1
+    path: Assets/Scenes/laberinto.unity
+    guid: 75f9813571711480c9b794f909f34434
+  - enabled: 1
+    path: Assets/Scenes/radar.unity
+    guid: 1d5dcd708d3774e48ae79ccc41e36c5c
+  - enabled: 1
+    path: Assets/Scenes/bolos.unity
+    guid: 45002a0a30c3c4af4a63f4685a82c5e1
   m_configObjects: {}

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class bolaBlanca : MonoBehaviour {
 
@@ -34,6 +35,10 @@ public class bolaBlanca : MonoBehaviour {
              una tecla (teniendo activo el isKinematic puede que n os sirva pra desplazar la bola, segun con la velocidad que movamos el palo*/
         rb.AddForce(-transform.position.x,- transform.position.y, -transform.position.z, ForceMode.Impulse);
 		}
+
+		//Si pulsa escape vuelve al menu
+		if (Input.GetKey(KeyCode.Escape))
+			SceneManager.LoadScene("MenuInicial");
 
 	}
 
