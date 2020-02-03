@@ -14,7 +14,8 @@ public class bolosCaidos : MonoBehaviour {
 	public Image bolo8;
 	public Image bolo9;
 	public Image bolo10;
-    public AudioSource sonidoBolos;
+
+    //public AudioSource sonidoBolos;
 
 	// Use this for initialization
 	void Start () {
@@ -33,7 +34,7 @@ public class bolosCaidos : MonoBehaviour {
      este es el que tiene asociado este Script "bolosCaidos.cs" ,cuandola cabeza de un bolo sale del colider de este, es identificado por el tag*/
     private void OnTriggerExit(Collider other)
     {
-        sonidoBolos.Play();
+        //sonidoBolos.Play();
 		switch (other.tag) {
 			case "bolo1":
                 bolo1.sprite = Resources.Load<Sprite>("aspa");//Cargamos la imagen
@@ -66,5 +67,22 @@ public class bolosCaidos : MonoBehaviour {
 				bolo10.sprite = Resources.Load<Sprite>("aspa");//Cargamos la imagen
 				break;		
 		}
+
     }
+
+	public void Reinicio() {
+        //Restablecemos la imagen de los bolos en la puntuacion  superior derecha
+		bolo1.sprite = Resources.Load<Sprite>("punto");//Cargamos la imagen
+		bolo2.sprite = Resources.Load<Sprite>("punto");//Cargamos la imagen
+		bolo3.sprite = Resources.Load<Sprite>("punto");//Cargamos la imagen
+		bolo4.sprite = Resources.Load<Sprite>("punto");//Cargamos la imagen
+		bolo5.sprite = Resources.Load<Sprite>("punto");//Cargamos la imagen
+		bolo6.sprite = Resources.Load<Sprite>("punto");//Cargamos la imagen
+		bolo7.sprite = Resources.Load<Sprite>("punto");//Cargamos la imagen
+		bolo8.sprite = Resources.Load<Sprite>("punto");//Cargamos la imagen
+		bolo9.sprite = Resources.Load<Sprite>("punto");//Cargamos la imagen
+		bolo10.sprite = Resources.Load<Sprite>("punto");//Cargamos la imagen
+	}
+
+    
 }
