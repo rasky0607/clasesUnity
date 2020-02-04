@@ -52,11 +52,10 @@ public class LanzamientoBola : MonoBehaviour {
 	Rigidbody rbBolo9;
 	Rigidbody rbBolo10;
 	//Sonido
-	//public AudioSource sonidoBola;
+	public AudioSource sonidoBola;
 
 	//Texto de ayuda
 	public GameObject panel;
-	public Text textAyuda;
 
 	void Start () {
 		rb = GetComponent<Rigidbody>();
@@ -131,7 +130,7 @@ public class LanzamientoBola : MonoBehaviour {
 		//Cuando soltamos la Space, lanzamos la bola
 		if (Input.GetKeyUp(KeyCode.Space))
 		{
-            //sonidoBola.Play();//activamos sonido
+            sonidoBola.Play();//activamos sonido
 			rb.AddForce(new Vector3(transform.position.x, transform.position.y, transform.position.z * -fuerzaLanzamiento), ForceMode.Impulse);
 			rb.AddTorque(new Vector3(transform.position.x, transform.position.y, transform.position.z* fuerzaTorqueVaraible), ForceMode.Impulse);
         }

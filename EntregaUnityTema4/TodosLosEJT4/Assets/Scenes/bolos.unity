@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657838, g: 0.49641234, b: 0.57481676, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1689,8 +1689,8 @@ MonoBehaviour:
   textFuerza: {fileID: 77024721}
   textPrecision: {fileID: 1747385448}
   sliderPrecision: {fileID: 107878682}
+  sonidoBola: {fileID: 447686871}
   panel: {fileID: 2037160422}
-  textAyuda: {fileID: 0}
 --- !u!54 &447686870
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1715,7 +1715,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: ca3f6524663d340aca2fb05feac442cd, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 8f9b99e3393cb1745a072f17d41c501f, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -6628,6 +6628,7 @@ MonoBehaviour:
   bolo8: {fileID: 471774242}
   bolo9: {fileID: 1398527112}
   bolo10: {fileID: 719211418}
+  sonidoBolos: {fileID: 1866070057}
 --- !u!65 &1866070052
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6719,7 +6720,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: dda7e0f07a7b5408e9260687f1575979, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 6ab61c67114755c4ab3916e1b9882581, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1

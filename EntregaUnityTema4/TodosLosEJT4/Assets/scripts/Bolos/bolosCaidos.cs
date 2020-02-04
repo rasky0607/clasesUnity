@@ -15,7 +15,7 @@ public class bolosCaidos : MonoBehaviour {
 	public Image bolo9;
 	public Image bolo10;
 
-    //public AudioSource sonidoBolos;
+    public AudioSource sonidoBolos;
 
 	// Use this for initialization
 	void Start () {
@@ -34,7 +34,7 @@ public class bolosCaidos : MonoBehaviour {
      este es el que tiene asociado este Script "bolosCaidos.cs" ,cuandola cabeza de un bolo sale del colider de este, es identificado por el tag*/
     private void OnTriggerExit(Collider other)
     {
-        //sonidoBolos.Play();
+        sonidoBolos.Play();
 		switch (other.tag) {
 			case "bolo1":
                 bolo1.sprite = Resources.Load<Sprite>("aspa");//Cargamos la imagen

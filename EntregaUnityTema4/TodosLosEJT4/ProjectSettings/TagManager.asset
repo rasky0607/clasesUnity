@@ -16,6 +16,13 @@ TagManager:
   - bolo10
   - bola
   - obstaculo
+  - capsulaPremio
+  - puerta1
+  - puerta2
+  - puerta3
+  - puerta4
+  - puerta5
+  - puerta6
   layers:
   - Default
   - TransparentFX
