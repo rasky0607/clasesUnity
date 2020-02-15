@@ -41,9 +41,11 @@ public class laberinto : MonoBehaviour {
     bool puerta1abierta = false;
     bool puerta2abierta = false;
     bool puerta3abierta = false;
-    bool puerta4abierta = false;
     bool puerta5abierta = false;
     bool puerta6abierta = false;
+
+    //Texto Fin de juego
+    public Text textFinJuego;
 
     Quaternion orientacionIniciP2;
 
@@ -60,8 +62,8 @@ public class laberinto : MonoBehaviour {
         posPuerta1 = puerta1.transform.position;
         posPuerta2 = puerta2.transform.position;
         posPuerta3 = puerta3.transform.position;
-        posPuerta4 = puerta4.transform.position;
         posPuerta5 = puerta5.transform.position;
+        textFinJuego.text=" ";
     }
 	
 	// Update is called once per frame
@@ -71,8 +73,11 @@ public class laberinto : MonoBehaviour {
         transform.Translate(new Vector3( 0,0,Input.GetAxis("Vertical")* velocidadMov * Time.deltaTime));
         transform.Rotate(new Vector3(0,  + Input.GetAxis("Horizontal")* velocidadRotacion * Time.deltaTime,0));
 
+        if (numCapsulasCogidas == 4)
+            textFinJuego.text = "Ganaste!, Fin de juego!.";
+
         //Volver al menu inicial
-        if(Input.GetKey(KeyCode.Escape))
+        if (Input.GetKey(KeyCode.Escape))
             SceneManager.LoadScene("MenuInicial");
          
 	}
@@ -109,66 +114,110 @@ public class laberinto : MonoBehaviour {
                 Destroy(other.gameObject);
                 break;
             case "puerta1":
-                if (!puerta1abierta)
-                {
-                    puerta1.transform.Translate(0, 0, 2);//para volver Z posDesplaz 2
-                    puerta1abierta = true;
+                Debug.Log("DENTRO!");
+                Quaternion origen = puerta1.transform.rotation;
+                if (puerta1abierta==false)
+                {//de origen a destino
+                    //puerta1.transform.rotation = Quaternion.Lerp(puerta1.transform.rotation, Quaternion.Euler(0, 90, 0), _velocidadRotacion * Time.deltaTime);
+                    Abrir(puerta1);
+                    //puerta1abierta = true;
                 }
-                else if(puerta1abierta) {
-                    puerta1.transform.Translate(0, 0,-2F);//para volver a la posInicial Z  0.67 le restamos 2 que e sla posicion al desplazarlo nos da -1.33 que es loq ue debemos moverlo
-                    puerta1abierta = false;
+                else if(puerta1abierta==true) {
+                    //puerta1.transform.rotation = Quaternion.Lerp(puerta1.transform.rotation, origen, _velocidadRotacion * Time.deltaTime);
+                    Cerrar(puerta1);
+                    //puerta1abierta = false;
                 }
                 //puerta1.transform.tran
                 break;
             case "puerta2":
                 if (!puerta2abierta)
                 {
-                    orientacionIniciP2 = transform.rotation;
-                    puerta2.transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(0, 0, 180), _velocidadRotacion * Time.deltaTime);
+                    puerta2.transform.Translate(0, 2.5F, 0);
                     puerta2abierta = true;
                 }
                 else if (puerta2abierta)
                 {
-                    puerta2.transform.rotation = Quaternion.Lerp(transform.rotation, orientacionIniciP2, _velocidadRotacion * Time.deltaTime);
+                    puerta2.transform.Translate(0, -2.5F, 0);
                     puerta2abierta = false;
                 }
-                    break;
+
+                break;
             case "puerta3":
                 if (!puerta3abierta)
                 {
-                    puerta3.transform.Translate(0, 3, 0);
+                    puerta3.transform.Translate(0, 2.5F, 0);
                     puerta3abierta = true;
                 }
                 else if (puerta3abierta)
                 {
-                    puerta3.transform.Translate(0, -3F, 0);
+                    puerta3.transform.Translate(0, -2.5F, 0);
                     puerta3abierta = false;
                 }
                 //puerta3.transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(0, 90, 0), _velocidadRotacion * Time.deltaTime);
                 break;
-            case "puerta4":
-                Debug.Log("Dentro");
-                puerta4.transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(0, 90, 0), _velocidadRotacion * Time.deltaTime);
-                break;
             case "puerta5":
-                Debug.Log("Dentro");
-                puerta5.transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(0, 90, 0), _velocidadRotacion * Time.deltaTime);
+                if (!puerta5abierta)
+                {
+                    puerta5.transform.Translate(0, 0, 2.5F);
+                    puerta5abierta = true;
+                }
+                else if (puerta5abierta)
+                {
+                    puerta5.transform.Translate(0, 0, -2.5F);
+                    puerta5abierta = false;
+                }
                 break;
             case "puerta6":
                 if (!puerta6abierta)
                 {
-                    puerta3.transform.Translate(4, 0, 0);
+                    puerta6.transform.Translate(0, 0, -4);
                     puerta6abierta = true;
                 }
                 else if (puerta6abierta)
                 {
-                    puerta3.transform.Translate(-4, 0, 0);
+                    puerta6.transform.Translate(-0, 0, 4);
                     puerta6abierta = false;
                 }
                 //puerta6.transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(0, 90, 0), _velocidadRotacion * Time.deltaTime);
                 break;
-        }
+        }  
+    }
 
-        // gameObject.transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(0, 90, 0), _velocidadRotacion * Time.deltaTime);
+    private void OnTriggerExit(Collider other)
+    {
+        switch (other.tag)
+        {
+
+            case "puerta1":
+                Debug.Log("DENTRO!");
+                Quaternion origen = puerta1.transform.rotation;
+                if (puerta1abierta == false)
+                {//de origen a destino
+                 //puerta1.transform.rotation = Quaternion.Lerp(puerta1.transform.rotation, Quaternion.Euler(0, 90, 0), _velocidadRotacion * Time.deltaTime);
+                    Abrir(puerta1);
+                    puerta1abierta = true;
+                }
+                else if (puerta1abierta == true)
+                {
+                    //puerta1.transform.rotation = Quaternion.Lerp(puerta1.transform.rotation, origen, _velocidadRotacion * Time.deltaTime);
+                    Cerrar(puerta1);
+                    puerta1abierta = false;
+                }
+                //puerta1.transform.tran
+                break;
+          
+        }
+    }
+
+    void Abrir(GameObject puerta)
+    {
+
+        puerta.transform.rotation = Quaternion.Lerp(puerta.transform.rotation, Quaternion.Euler(0, 90, 0), _velocidadRotacion * Time.deltaTime);
+        
+    }
+
+    void Cerrar(GameObject puerta)
+    {
+        puerta.gameObject.transform.rotation = Quaternion.Lerp(puerta.transform.rotation, Quaternion.Euler(0, 0, 0), _velocidadRotacion * Time.deltaTime);
     }
 }
