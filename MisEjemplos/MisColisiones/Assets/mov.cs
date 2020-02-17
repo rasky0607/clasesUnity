@@ -26,6 +26,9 @@ public class mov : MonoBehaviour {
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Item")
+        {
             Destroy(other.gameObject);
+            Debug.Log("Hola");
+        }
     }
 }
