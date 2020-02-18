@@ -5,7 +5,7 @@ using UnityEngine;
 public class FlechaDiaparada : MonoBehaviour {
     //lanzamiento flecha
     Rigidbody rbFlecha;
-    float fuerza = 20F;
+    float fuerza = 70F;
     Vector3 fuerzaAdelante;
     float cargaDeFuerza = 10;
 

@@ -52,7 +52,9 @@ public class FlechaAnimaDisparo : MonoBehaviour {
     IEnumerator CrearFlechaClonada() {     
         posOriginal = gameObject.transform.position;
         rotacionOriginal = gameObject.transform.rotation;      
-        Instantiate(prefabFlecha, posOriginal, rotacionOriginal);//Instanciamos flecha clonada enla posicion del padre      
+        GameObject flechaClonada= Instantiate(prefabFlecha, posOriginal, rotacionOriginal);//Instanciamos flecha clonada enla posicion del padre 
+        
+        flechaClonada.GetComponent<Rigidbody>().useGravity = true;
         yield return new WaitForSeconds(3F);
     }
 

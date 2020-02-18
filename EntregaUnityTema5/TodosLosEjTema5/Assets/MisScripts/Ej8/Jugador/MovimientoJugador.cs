@@ -7,6 +7,7 @@ public class MovimientoJugador : MonoBehaviour {
     public float velocidadAndar = 25F;
     public float velocidadRotacion = 40F;
     public GameObject camaraJugador;
+    float posY;
 
 	// Use this for initialization
 	void Start () {
