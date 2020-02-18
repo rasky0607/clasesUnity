@@ -7,10 +7,7 @@ public class FlechaDiaparada : MonoBehaviour {
     Rigidbody rbFlecha;
     float fuerza = 20F;
     Vector3 fuerzaAdelante;
-    float cargaDeFuerza = 1;
-  
-
-   
+    float cargaDeFuerza = 10;
 
     // Use this for initialization
     void Start () {
@@ -20,17 +17,15 @@ public class FlechaDiaparada : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
+        Destroy(gameObject, 4);
 	}
 
     public void LanzarFlecha()
-    {      
-        fuerzaAdelante = Vector3.forward * fuerza * Time.deltaTime * 5;//Cntrl Izq o btn Iz raton, es decir (0)
+    {
+        Debug.Log("Empujando Flecha! " + gameObject.name);
+        fuerzaAdelante = transform.forward * fuerza * Time.deltaTime * cargaDeFuerza;//Cntrl Izq o btn Iz raton, es decir (0)
         rbFlecha.AddForce(fuerzaAdelante, ForceMode.Impulse);
         //rbFlecha.useGravity = true;
-
-        //Prueba flecha clonada
-        rbFlecha.AddForce(fuerzaAdelante, ForceMode.Impulse);
     }
 
 }

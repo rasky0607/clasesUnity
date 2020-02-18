@@ -4,25 +4,24 @@ using UnityEngine;
 
 public class FlechaAnimaDisparo : MonoBehaviour {
 
-    //lanzamiento flecha
-    Rigidbody rbFlecha;
-    float fuerza=20F;
-    Vector3 fuerzaAdelante;
+    //Animacion flecha
+    /*Flecha animada solo realiza la accion pero no se mueve, la flecha  instanciada prefabFlecha es la que se lanza */
     Animator cargaFlecha;
-    float cargaDeFuerza = 1;
 
     //Flecha disparada
-   public GameObject prefabFlecha;//Objeto prefab que vamos a clonar en la misma posicion que el objeto flechaAnimada que a pesar de tener el mismo aspecto tiene distinta funcionalidad
-    /*Flecha animada solo realiza la accion pero no se mueve, la flecha  instanciada prefabFlecha es la que se lanza */
-    Rigidbody rbFlechaClonada;
-  
+   public GameObject prefabFlecha;//Objeto prefab que vamos a clonar en la misma posicion que el objeto flechaAnimada que a pesar de tener el mismo aspecto tiene distinta funcionalidad                           
+    //Instanciamiento de la flecha
+    Vector3 posOriginal;
+    Quaternion rotacionOriginal;
 
+ 
     // Use this for initialization
-	void Start () {
+    void Start () {
 
-        rbFlecha = GetComponent<Rigidbody>();
         cargaFlecha = GetComponent<Animator>();
-      
+        posOriginal = gameObject.transform.position;
+        rotacionOriginal = gameObject.transform.rotation;
+       
     }
 	
 	// Update is called once per frame
@@ -32,10 +31,9 @@ public class FlechaAnimaDisparo : MonoBehaviour {
             StartCoroutine(EsperaRecarga());//Comenzamos la animacion ce cargarla flecha hacia atras
         }
         if (Input.GetMouseButtonUp(0)) {//Cuando se suelta el boton IZq del raton, terminamos la animacion hacia delante y lanzamos la flecha
-            cargaFlecha.SetBool("Cargando", false);//"Cargando" es el boleano del control de animacion ControlAnimacionFlecha
-            LanzarFlecha();
-            //rbFlecha.useGravity = true;
-            Instantiate(prefabFlecha, gameObject.transform.position, gameObject.transform.rotation);//Instanciamos flecha clonada enla posicion del padre
+            cargaFlecha.SetBool("Cargando", false);//"Cargando" es el boleano del control de animacion ControlAnimacionFlecha         
+            StartCoroutine(CrearFlechaClonada());
+           
         }  
             
 	}
@@ -44,16 +42,18 @@ public class FlechaAnimaDisparo : MonoBehaviour {
      y una vez iniciada, desactiva el animator para poder lanzar la flecha al soltar el boton del raton*/
      IEnumerator EsperaRecarga()
     {     
-        cargaFlecha.enabled = true;//Desactivamos animator
+        cargaFlecha.enabled = true;//Activamos animator
         cargaFlecha.SetBool("Cargando", true);
         yield return new WaitForSeconds(1F);
         //cargaFlecha.SetBool("Cargando", false);
         cargaFlecha.enabled = false;//Desactivamos animator
     }
-    /*Este metodo aplica fuerza ala flecha que vamos a lanzar*/
-    public void LanzarFlecha() {
 
-      
-     
+    IEnumerator CrearFlechaClonada() {     
+        posOriginal = gameObject.transform.position;
+        rotacionOriginal = gameObject.transform.rotation;      
+        Instantiate(prefabFlecha, posOriginal, rotacionOriginal);//Instanciamos flecha clonada enla posicion del padre      
+        yield return new WaitForSeconds(3F);
     }
+
 }
