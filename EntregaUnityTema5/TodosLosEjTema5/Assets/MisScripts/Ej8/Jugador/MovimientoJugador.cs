@@ -8,10 +8,12 @@ public class MovimientoJugador : MonoBehaviour {
     public float velocidadRotacion = 40F;
     public GameObject camaraJugador;
     float posY;
+    //Levantarse
+    Quaternion orientacionInicial;
 
 	// Use this for initialization
 	void Start () {
-		//555
+        orientacionInicial = transform.rotation;
 	}
 	
 	// Update is called once per frame
@@ -23,5 +25,16 @@ public class MovimientoJugador : MonoBehaviour {
         camaraJugador.transform.Rotate( -Input.GetAxis("Mouse Y") * velocidadRotacion * Time.deltaTime,0, 0);
         //Desplazamiendo del personaje
         transform.Translate(0, 0, Input.GetAxis("Vertical")  * velocidadAndar * Time.deltaTime);
+      
+
+        //Boton derecho del raton para levantar el personaje cuando se cae
+        if (Input.GetMouseButtonDown(1))
+            Levantarse();
     }
+    //Colocamos el muñeco de pie
+    public void Levantarse()
+    {
+        transform.SetPositionAndRotation(transform.position, orientacionInicial);
+    }
+
 }
