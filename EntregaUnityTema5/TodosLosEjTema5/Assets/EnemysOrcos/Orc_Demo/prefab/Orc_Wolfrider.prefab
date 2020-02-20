@@ -445,6 +445,9 @@ GameObject:
   m_Component:
   - component: {fileID: 413006}
   - component: {fileID: 9575048}
+  - component: {fileID: 195040636347798962}
+  - component: {fileID: 114052846539703264}
+  - component: {fileID: 54158637117038314}
   m_Layer: 0
   m_Name: Orc_Wolfrider
   m_TagString: Untagged
@@ -905,15 +908,15 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 153010}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0.99824256, z: -0, w: 0.05926062}
+  m_LocalPosition: {x: -1.059, y: 0, z: 1.9965208}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 460970}
   - {fileID: 428820}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -173.205, z: 0}
 --- !u!4 &415966
 Transform:
   m_ObjectHideFlags: 1
@@ -1607,7 +1610,7 @@ Animator:
   m_GameObject: {fileID: 153010}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: d021512d6de402148a36d287d6cde611, type: 3}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 1fd6d4f47e0b7f44a8ffd482f2f8d156, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -1714,3 +1717,50 @@ Prefab:
   m_SourcePrefab: {fileID: 0}
   m_RootGameObject: {fileID: 153010}
   m_IsPrefabAsset: 1
+--- !u!54 &54158637117038314
+Rigidbody:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 153010}
+  serializedVersion: 2
+  m_Mass: 700
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!114 &114052846539703264
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 153010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b562b5a0dfcd0574d8666ac288e15888, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!195 &195040636347798962
+NavMeshAgent:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 153010}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
