@@ -27,6 +27,7 @@ public class MovimientoJugador : MonoBehaviour {
             camaraJugador.transform.Rotate(-Input.GetAxis("Mouse Y") * velocidadRotacion * Time.deltaTime, 0, 0);
             //Desplazamiendo del personaje
             transform.Translate(0, 0, Input.GetAxis("Vertical") * velocidadAndar * Time.deltaTime);
+            transform.Translate(Input.GetAxis("Horizontal") * velocidadAndar * Time.deltaTime, 0,0 );
 
 
             //Boton derecho del raton para levantar el personaje cuando se cae
