@@ -13,6 +13,7 @@ TagManager:
   - puntoC
   - puntoD
   - flechaDisparada
+  - puntoRecarga
   layers:
   - Default
   - TransparentFX
