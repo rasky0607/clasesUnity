@@ -13,6 +13,7 @@ public class ControlUI : MonoBehaviour
     public Text textNumVidaCorazon;
     public static int numVidaCorazon;
     public GameObject panelAyuda1;
+    public GameObject prefabCargarMunicion;
 
     //Pintar OnGUI
     public static bool pintarMenu = false;//Cuando es falso no pinta cuando es true si
@@ -79,6 +80,11 @@ public class ControlUI : MonoBehaviour
 
         }
 
+    }
+    //Instancia los puntos de recarga en el mapa enlos diferentes cubos con el tag puntoRecarga
+    public void cargarPuntosDeRecarga(Transform posicion,GameObject prefabRecarga)
+    { 
+        
     }
 
     //Pintamos el Menu
