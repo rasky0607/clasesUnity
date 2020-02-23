@@ -10,15 +10,17 @@ public class MovimientoJugador : MonoBehaviour {
     float posY;
     //Levantarse
     Quaternion orientacionInicial;
+    //Estado del juego Pausado/Reanudado
+    bool juegoEnPausa = false;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
         orientacionInicial = transform.rotation;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        if (!ControlUI.juegoEnPausa)//Si juego en pausa es distinto de verdad o sea , no esta en pausa
+        if (!juegoEnPausa)//Si juego en pausa es distinto de verdad o sea , no esta en pausa
         {
             //transform.Rotate(0, Input.GetAxis("Horizontal") * velocidad, 0);
             //Giro de personaje hacia los lados con el raton
@@ -40,5 +42,12 @@ public class MovimientoJugador : MonoBehaviour {
     {
         transform.SetPositionAndRotation(transform.position, orientacionInicial);
     }
+
+    //Este metodo recibe un mensaje de la clase ControlUI cuando se ha modificado la variable JuegoPausado, indicando si esta en pausa o reanudado
+    public void PausarOReanudadJuego(bool estado)
+    {
+        juegoEnPausa = estado;
+    }
+
 
 }

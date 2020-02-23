@@ -92,9 +92,10 @@ GameObject:
   - component: {fileID: 4509039546746034}
   - component: {fileID: 54453049735711010}
   - component: {fileID: 65745931987536272}
+  - component: {fileID: 114093279067765760}
   m_Layer: 0
   m_Name: packFlechaMunicion
-  m_TagString: Untagged
+  m_TagString: puntoRecarga
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -106,7 +107,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1344993447519148}
   m_LocalRotation: {x: 0.3135251, y: -0.6337997, z: 0.3135251, w: 0.6337997}
-  m_LocalPosition: {x: 0.67, y: 2.96, z: 0.48832008}
+  m_LocalPosition: {x: 6.22, y: 3.05, z: 0.48832008}
   m_LocalScale: {x: 6.5545826, y: 4.6463804, z: 3.89519}
   m_Children: []
   m_Father: {fileID: 4509039546746034}
@@ -120,7 +121,7 @@ Transform:
   m_GameObject: {fileID: 1422235010470902}
   m_LocalRotation: {x: 0.67577237, y: 0.037296247, z: -0.00000044703478, w: 0.73616636}
   m_LocalPosition: {x: -0.04394093, y: 0.11158735, z: 0.15088199}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 5.165439, y: 1.5045708, z: 1}
   m_Children: []
   m_Father: {fileID: 4509039546746034}
   m_RootOrder: 0
@@ -131,9 +132,9 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1742457674937854}
-  m_LocalRotation: {x: -0.70683813, y: -0.019490693, z: -0.70683813, w: -0.019490693}
-  m_LocalPosition: {x: -13.3, y: -1.5420007, z: 0.5043}
-  m_LocalScale: {x: 0.010470399, y: 0.07470503, z: 0.30513}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4413480172577766}
   - {fileID: 4511193019013422}
@@ -141,7 +142,7 @@ Transform:
   - {fileID: 4005265013546150}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 30.477001, z: 176.841}
 --- !u!4 &4511193019013422
 Transform:
   m_ObjectHideFlags: 1
@@ -149,8 +150,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1625238062022220}
   m_LocalRotation: {x: 0.67577237, y: 0.037296247, z: -0.00000044703478, w: 0.73616636}
-  m_LocalPosition: {x: 0.4519425, y: 0.1154232, z: 0.15088199}
-  m_LocalScale: {x: 1.0195365, y: 1.019534, z: 1}
+  m_LocalPosition: {x: 7, y: 0.17, z: 0.15088199}
+  m_LocalScale: {x: 5.165439, y: 1.504571, z: 1}
   m_Children: []
   m_Father: {fileID: 4509039546746034}
   m_RootOrder: 1
@@ -162,8 +163,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1347593282998606}
   m_LocalRotation: {x: 0.67577237, y: 0.037296247, z: -0.00000044703478, w: 0.73616636}
-  m_LocalPosition: {x: 0.9668959, y: 0.11940655, z: 0.15088199}
-  m_LocalScale: {x: 1.0394537, y: 1.0394481, z: 1}
+  m_LocalPosition: {x: 3.52, y: 0.15, z: 0.15088199}
+  m_LocalScale: {x: 5.165439, y: 1.504571, z: 1}
   m_Children: []
   m_Father: {fileID: 4509039546746034}
   m_RootOrder: 2
@@ -361,8 +362,19 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 2.5856602, y: 4.1951456, z: 1.2925001}
-  m_Center: {x: 0.5561065, y: -0.13250294, z: 0.060706005}
+  m_Size: {x: 9.802171, y: 4.1951456, z: 1.2925}
+  m_Center: {x: 4.1643596, y: -0.13250297, z: 0.06070602}
+--- !u!114 &114093279067765760
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1742457674937854}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b1bf0cdf70acea48976b1d0090f9758, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!198 &198459041291218640
 ParticleSystem:
   m_ObjectHideFlags: 1
@@ -549,7 +561,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 0.022694906, g: 0.9622642, b: 0.51498365, a: 0.11764706}
+      maxColor: {r: 0.022694906, g: 0.9622642, b: 0.51498365, a: 0.07450981}
       maxGradient:
         serializedVersion: 2
         key0: {r: 0.9056604, g: 0.14951938, b: 0.14951938, a: 0.627451}

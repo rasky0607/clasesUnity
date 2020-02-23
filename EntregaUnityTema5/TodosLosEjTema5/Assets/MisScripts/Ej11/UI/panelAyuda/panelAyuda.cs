@@ -33,6 +33,6 @@ public class panelAyuda : MonoBehaviour {
     public void SalirPanelAyuda() {
         panelAyuda1.SetActive(false);//Ocultamos el  panelAyuda1 y 2
         panelAyuda2.SetActive(false);
-        ControlUI.pintarMenu = true;//Activamos de nuevo el menu GUI
+        GameObject.FindGameObjectWithTag("UI").SendMessage("ActivarPintarMenu");//Activamos de nuevo el menu GUI     
     }
 }

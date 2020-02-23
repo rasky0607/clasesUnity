@@ -15,6 +15,15 @@ public class FlechaAnimaDisparo : MonoBehaviour {
     Quaternion rotacionOriginal;
     MeshRenderer mrFlechaAnimada;
 
+    //Municion
+    int numMunicion;
+    //Estado del juego Pausado/Reanudado
+    bool juegoEnPausa = false;
+
+    //Corrutinas recogidas
+    Coroutine coruCrearFlechas;
+    Coroutine coruEsperarRecaga;
+
     // Use this for initialization
     void Start () {
 
@@ -28,37 +37,48 @@ public class FlechaAnimaDisparo : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (!ControlUI.juegoEnPausa)//Si juego en pausa es distintod e verdad o sea , no esta en pausa
+        if (!juegoEnPausa)//Si juego en pausa es distintod e verdad o sea , no esta en pausa
         {        
-            if (ControlUI.numMunicion > 0)
+            if (numMunicion>0)
             {
                 //Activamos MesRender de la flecha animada mostrandola
                 mrFlechaAnimada.enabled = true;
                 if (Input.GetMouseButtonDown(0))//Mientras estra presionado  el click Izq del raton
                 {
-                    StartCoroutine(EsperaRecarga());//Comenzamos la animacion ce cargarla flecha hacia atras
+                  coruEsperarRecaga =StartCoroutine(EsperaRecarga());//Comenzamos la animacion ce cargarla flecha hacia atras
                 }
                 if (Input.GetMouseButtonUp(0))
                 {//Cuando se suelta el boton IZq del raton, terminamos la animacion hacia delante y lanzamos la flecha
                     cargaFlecha.SetBool("Cargando", false);//"Cargando" es el boleano del control de animacion ControlAnimacionFlecha         
-                    StartCoroutine(CrearFlechaClonada());//Creamos la flecha clonada que va ser disparada, esta flecha disparada tiene su propio script para los disparos
+                    coruCrearFlechas= StartCoroutine(CrearFlechaClonada());//Creamos la flecha clonada que va ser disparada, esta flecha disparada tiene su propio script para los disparos
                 }
             }
             else
             {
                 //Desactivamos MesRender de la flecha animada ocultandola
                 mrFlechaAnimada.enabled = false;
+                StopCoroutine(coruCrearFlechas);//Paramos la corutina
+                StopCoroutine(coruEsperarRecaga);//Paramos la corutina
             }
-        }
-        else {
-            Debug.Log("JUEGO PARADO!");           
         }
             
 	}
 
+    //PReguntamos si el arco tiene municion atrvés de un mensaje enviado desde la clase ControlUI
+    public void TieneMunicion(int numMunicion) {
+        this.numMunicion = numMunicion;     
+    }
+
+    //Este metodo recibe un mensaje de la clase ControlUI cuando se ha modificado la variable JuegoPausado, indicando si esta en pausa o reanudado
+    public void PausarOReanudadJuego(bool estado)
+    {
+        juegoEnPausa = estado;
+    }
+
+
     /**Esta Corutina realiza la animacion de carga de  un disparo de flecha
      y una vez iniciada, desactiva el animator para poder lanzar la flecha al soltar el boton del raton*/
-     IEnumerator EsperaRecarga()
+    IEnumerator EsperaRecarga()
     {     
         cargaFlecha.enabled = true;//Activamos animator
         cargaFlecha.SetBool("Cargando", true);
@@ -67,6 +87,7 @@ public class FlechaAnimaDisparo : MonoBehaviour {
         cargaFlecha.enabled = false;//Desactivamos animator
     }
 
+    //Instancia una nueva flecha, a la cual se le aplica una fuerza
     IEnumerator CrearFlechaClonada() {     
         posOriginal = gameObject.transform.position;
         rotacionOriginal = gameObject.transform.rotation;      

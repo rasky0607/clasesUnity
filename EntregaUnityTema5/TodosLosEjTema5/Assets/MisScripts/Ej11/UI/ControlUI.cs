@@ -9,14 +9,19 @@ public class ControlUI : MonoBehaviour
 {
     public static bool juegoEnPausa = false;//Esta variable es accesible desde cualquier script y sirve para indicar cuando el juego esta parado o no, como cuando termina o se muestra algun menu.
     public Text textNumMunicion;
-    public static int numMunicion;
+    int numMunicion;
+    public int municionInicial=20;//Numero de flechas con las que se inicia
     public Text textNumVidaCorazon;
-    public static int numVidaCorazon;
+    public int numVidaCorazon;
+    public int numVidaInicial=30;//puntos de vida con los que se inica
+    public Text textNumeroMonedas;
+    int numeroDeMonedas = 0;
     public GameObject panelAyuda1;
-    public GameObject prefabCargarMunicion;
-
+    //public GameObject prefabCargarMunicion;
+    //Puntos de reaparicion del enemigo (puede que no se implemente), pero se dejara picado igualmente
+    GameObject[] puntosRespawn;
     //Pintar OnGUI
-    public static bool pintarMenu = false;//Cuando es falso no pinta cuando es true si
+    public bool pintarMenu = false;//Cuando es falso no pinta cuando es true si
     bool pintarMenuFinalPartida = false;//Cuando la vida a 0 antes que el tiempo
 
     //Reloj de tiempo del juego
@@ -25,22 +30,36 @@ public class ControlUI : MonoBehaviour
     float escalaDeTiempo = 0f;//Escala de tiempo  obtenida del tiempo transcurrido en cada frame por TimeDeltaTime
     float tiempoAMostrarEnSegundos = 0f;
     public Text textContadorTiempo;
-
     string textoDeReloj;
+
+    //Prefab Enemigo
+     public GameObject prefabEnemigo;
+
     // Use this for initialization
     void Start()
     {
+        //Monedas
+        textNumeroMonedas.text = numeroDeMonedas.ToString();
         //Municion
-        numMunicion = 10;
+        numMunicion = municionInicial;
         textNumMunicion.text = numMunicion.ToString();
+        GameObject.FindGameObjectWithTag("arma").SendMessage("TieneMunicion", numMunicion);//Actualizamos la  varible numMunicion de la clase FlechaAnimaDisparo al empezar(haremos los mismo al recargar)
 
         //Vida
-        numVidaCorazon = 10;
+        numVidaCorazon = numVidaInicial;
         textNumVidaCorazon.text = numVidaCorazon.ToString();
-
+        GameObject.FindGameObjectWithTag("enemigo").SendMessage("InformarAlEnemigoDeVidaDeJugador", numVidaCorazon);//Informamos al enemigo de la vida del jugador para que sepa cuando parar de 
         //Reloj
         tiempoInicial = 300;
         tiempoAMostrarEnSegundos = tiempoInicial;
+
+        //Recoger puntos de Respawn
+        puntosRespawn = GameObject.FindGameObjectsWithTag("puntoRespawn");
+        /*for (int i = 0; i < puntosRespawn.Length; i++)
+        {
+            Debug.Log("respawn "+i +"--> "+puntosRespawn[i].transform.position);
+        }*/
+       
     }
 
     private void FixedUpdate()
@@ -55,6 +74,7 @@ public class ControlUI : MonoBehaviour
         else
         {//Se para el juego por que el tiempo llego a 00:00
             juegoEnPausa = true;
+            NotificarJuegoEnPausa();
         }
 
     }
@@ -62,11 +82,6 @@ public class ControlUI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-        if (Input.GetKey(KeyCode.K))//Recarga municion temporalmente con la K
-        {
-            RecargarMunicion();
-        }
 
         //Cuando se pulsa escape pintamos un menu con GUI
         if (Input.GetKey(KeyCode.Escape))
@@ -79,12 +94,30 @@ public class ControlUI : MonoBehaviour
             pintarMenu = true;           
 
         }
+        if (numMunicion == 0)//Cuando la municion llega a 0 se avisa a la clase FlechaAnimaDisparo
+        {
+            GameObject.FindGameObjectWithTag("arma").SendMessage("TieneMunicion", numMunicion);
+        }
+        //StartCoroutine("InstanciarEnemigo"); 
 
     }
-    //Instancia los puntos de recarga en el mapa enlos diferentes cubos con el tag puntoRecarga
-    public void cargarPuntosDeRecarga(Transform posicion,GameObject prefabRecarga)
-    { 
-        
+
+    IEnumerator InstanciarEnemigo() {
+        GameObject puntoParaInstanciar = puntosRespawn[Random.Range(0, puntosRespawn.Length)];
+        Instantiate(prefabEnemigo, puntoParaInstanciar.transform.position, puntoParaInstanciar.transform.rotation);//Instanciamos flecha clonada enla posicion del padre 
+        yield return new WaitForSeconds(30F);
+    }
+
+    //Enviamos un mensaje a todas las clases para indicar que el juego esta pausado
+    public void NotificarJuegoEnPausa() {
+        GameObject.FindGameObjectWithTag("arma").SendMessage("PausarOReanudadJuego", juegoEnPausa);
+        GameObject.FindGameObjectWithTag("jugador").SendMessage("PausarOReanudadJuego", juegoEnPausa);
+        GameObject.FindGameObjectWithTag("enemigo").SendMessage("PausarOReanudadJuego", juegoEnPausa);      
+    }
+
+    //Este metodo puede  recibir un mensaje desde cualquier otra clase para cambiar el valor de la variable pintarMenu a true
+    public void ActivarPintarMenu() {
+        pintarMenu = true;
     }
 
     //Pintamos el Menu
@@ -100,6 +133,7 @@ public class ControlUI : MonoBehaviour
     private void Menu()
     {
         juegoEnPausa = true;//Ponemos en pausa el juego
+        NotificarJuegoEnPausa();
         int ancho = 200;
         int alto = 30;
         int x = (Screen.width / 2) - (ancho / 2);//Cogemos el ancho de  la pantall lo dividimos entre 2 y  le restamos nuestro ancho entre 2
@@ -115,7 +149,7 @@ public class ControlUI : MonoBehaviour
             {
                 pintarMenu = false;//Dejamos de pintar el menu GUI
                 juegoEnPausa = false;//Quitamos pausa del juego
-
+                NotificarJuegoEnPausa();
             }
         }
         //Dejamos de pintar menu y pintamos una ventana nueva de ayuda sobre el juego
@@ -130,6 +164,7 @@ public class ControlUI : MonoBehaviour
         {
             SceneManager.LoadScene("Ej11");
             juegoEnPausa = false;
+            NotificarJuegoEnPausa();
             pintarMenu = false;
             if (pintarMenuFinalPartida)
             {
@@ -160,27 +195,37 @@ public class ControlUI : MonoBehaviour
         textContadorTiempo.text = minutos.ToString("00") + ":" + segundos.ToString("00");
     }
 
+    //Metodo llamado por la clase FlechaANimaDisparo cuando se realiza un disparo de flecha para descontarla dela municion total
     private void DescontarMunicion()
     {
-        numMunicion = numMunicion - 1;
-        textNumMunicion.text = numMunicion.ToString();
+        if (numMunicion > 0)
+        { 
+            numMunicion = numMunicion - 1;
+            textNumMunicion.text = numMunicion.ToString();
+        }
     }
-    private void RecargarMunicion()
+    //Aumenta la cantida de flechas que tiene del jugador disponibles
+    private void RecargarMunicion(int cantidad)
     {
-        numMunicion = 5;
+        numMunicion += cantidad;
         textNumMunicion.text = numMunicion.ToString();
+        GameObject.FindGameObjectWithTag("arma").SendMessage("TieneMunicion", numMunicion);//Actualizamos la  varible numMunicion de la clase FlechaAnimaDisparo al recargar
     }
 
     //Descontar vida del jugador en el text que la representa
     private void QuitarVida(int danio)
     {
-        if (numVidaCorazon > 0)
-        {
+        if (numVidaCorazon > 0 && !juegoEnPausa)//Si tiene vida y el juego no esta en pausa
+        {      
             numVidaCorazon -= danio;
             textNumVidaCorazon.text = numVidaCorazon.ToString();
+            GameObject.FindGameObjectWithTag("enemigo").SendMessage("InformarAlEnemigoDeVidaDeJugador", numVidaCorazon);//Informamos al enemigo que la vida del jugador cambio para que sepa si debe parar de atacar
         }
-        else
-            Debug.Log("Ya estas muerto");
+    }
+
+    private void GanarMonedas(int numMonedas) {
+        numeroDeMonedas += numMonedas;
+        textNumeroMonedas.text = numeroDeMonedas.ToString();
     }
 
 

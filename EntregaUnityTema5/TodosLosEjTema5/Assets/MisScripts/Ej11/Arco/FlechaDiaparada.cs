@@ -22,7 +22,7 @@ public class FlechaDiaparada : MonoBehaviour {
 
     public void LanzarFlecha()
     {
-        Debug.Log("Empujando Flecha! " + gameObject.name);
+        //Debug.Log("Empujando Flecha! " + gameObject.name);
         fuerzaAdelante = transform.forward * fuerza * Time.deltaTime * cargaDeFuerza;//Cntrl Izq o btn Iz raton, es decir (0)
         rbFlecha.AddForce(fuerzaAdelante, ForceMode.Impulse);
         //rbFlecha.useGravity = true;

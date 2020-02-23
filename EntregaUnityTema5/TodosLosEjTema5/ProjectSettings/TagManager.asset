@@ -14,6 +14,10 @@ TagManager:
   - puntoD
   - flechaDisparada
   - puntoRecarga
+  - arma
+  - puntoRespawn
+  - SoldadoAzulMenu
+  - SoldadoAmarilloMenu
   layers:
   - Default
   - TransparentFX
