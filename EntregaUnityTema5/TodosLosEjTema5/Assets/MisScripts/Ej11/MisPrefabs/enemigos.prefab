@@ -397,7 +397,7 @@ GameObject:
   - component: {fileID: 114883126053451632}
   - component: {fileID: 195546461026878350}
   m_Layer: 0
-  m_Name: Footman_prefab (2)
+  m_Name: enemigos
   m_TagString: enemigo
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
