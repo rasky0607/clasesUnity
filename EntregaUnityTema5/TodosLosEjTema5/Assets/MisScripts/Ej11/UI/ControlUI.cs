@@ -32,23 +32,31 @@ public class ControlUI : MonoBehaviour
     public Text textContadorTiempo;
     string textoDeReloj;
 
+
     //Prefab Enemigo
      public GameObject prefabEnemigo;
+
+    //Conjunto de enemigos
+    GameObject[] conjuntoEnemigos;
 
     // Use this for initialization
     void Start()
     {
+       
         //Monedas
         textNumeroMonedas.text = numeroDeMonedas.ToString();
         //Municion
         numMunicion = municionInicial;
         textNumMunicion.text = numMunicion.ToString();
         GameObject.FindGameObjectWithTag("arma").SendMessage("TieneMunicion", numMunicion);//Actualizamos la  varible numMunicion de la clase FlechaAnimaDisparo al empezar(haremos los mismo al recargar)
+        //Recolecion de conjunto de gameobject cone l tag "enemigo"
+        conjuntoEnemigos = GameObject.FindGameObjectsWithTag("enemigo");
 
         //Vida
         numVidaCorazon = numVidaInicial;
         textNumVidaCorazon.text = numVidaCorazon.ToString();
-        GameObject.FindGameObjectWithTag("enemigo").SendMessage("InformarAlEnemigoDeVidaDeJugador", numVidaCorazon);//Informamos al enemigo de la vida del jugador para que sepa cuando parar de 
+        foreach(GameObject item in conjuntoEnemigos)//Informamos a cada uno de los objetos con ese tag
+            GameObject.FindGameObjectWithTag(item.tag).SendMessage("InformarAlEnemigoDeVidaDeJugador", numVidaCorazon);//Informamos al enemigo de la vida del jugador para que sepa cuando parar de atacar
         //Reloj
         tiempoInicial = 300;
         tiempoAMostrarEnSegundos = tiempoInicial;
@@ -112,7 +120,12 @@ public class ControlUI : MonoBehaviour
     public void NotificarJuegoEnPausa() {
         GameObject.FindGameObjectWithTag("arma").SendMessage("PausarOReanudadJuego", juegoEnPausa);
         GameObject.FindGameObjectWithTag("jugador").SendMessage("PausarOReanudadJuego", juegoEnPausa);
-        GameObject.FindGameObjectWithTag("enemigo").SendMessage("PausarOReanudadJuego", juegoEnPausa);      
+        /*foreach (GameObject item in conjuntoEnemigos)
+            GameObject.FindGameObjectWithTag(item.tag).SendMessage("PausarOReanudadJuego", juegoEnPausa);*/
+        //GameObject.FindGameObjectWithTag("enemigo").SendMessage("PausarOReanudadJuego", juegoEnPausa);      
+    }
+    public void PausarJuego() {
+        Time.timeScale = 0;
     }
 
     //Este metodo puede  recibir un mensaje desde cualquier otra clase para cambiar el valor de la variable pintarMenu a true
@@ -134,6 +147,8 @@ public class ControlUI : MonoBehaviour
     {
         juegoEnPausa = true;//Ponemos en pausa el juego
         NotificarJuegoEnPausa();
+        if(juegoEnPausa)
+            PausarJuego();
         int ancho = 200;
         int alto = 30;
         int x = (Screen.width / 2) - (ancho / 2);//Cogemos el ancho de  la pantall lo dividimos entre 2 y  le restamos nuestro ancho entre 2
@@ -150,6 +165,8 @@ public class ControlUI : MonoBehaviour
                 pintarMenu = false;//Dejamos de pintar el menu GUI
                 juegoEnPausa = false;//Quitamos pausa del juego
                 NotificarJuegoEnPausa();
+                Time.timeScale = 1F;
+
             }
         }
         //Dejamos de pintar menu y pintamos una ventana nueva de ayuda sobre el juego
@@ -219,7 +236,9 @@ public class ControlUI : MonoBehaviour
         {      
             numVidaCorazon -= danio;
             textNumVidaCorazon.text = numVidaCorazon.ToString();
-            GameObject.FindGameObjectWithTag("enemigo").SendMessage("InformarAlEnemigoDeVidaDeJugador", numVidaCorazon);//Informamos al enemigo que la vida del jugador cambio para que sepa si debe parar de atacar
+            foreach (GameObject item in conjuntoEnemigos)//Informamos a cada uno de los objetos con ese tag
+                GameObject.FindGameObjectWithTag(item.tag).SendMessage("InformarAlEnemigoDeVidaDeJugador", numVidaCorazon);//Informamos al enemigo de la vida del jugador para que sepa cuando parar de atacar
+            //GameObject.FindGameObjectWithTag("enemigo").SendMessage("InformarAlEnemigoDeVidaDeJugador", numVidaCorazon);//Informamos al enemigo que la vida del jugador cambio para que sepa si debe parar de atacar
         }
     }
 

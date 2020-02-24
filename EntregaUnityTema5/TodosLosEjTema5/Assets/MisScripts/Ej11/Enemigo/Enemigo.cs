@@ -34,7 +34,7 @@ public class Enemigo : MonoBehaviour {
     //Estado del juego Pausado/Reanudado
     bool juegoEnPausa = false;
     //Vida jugador
-    int vidaJugador;
+    int vidaJugador=30;
 
     // Use this for initialization
     void Start () {
@@ -52,9 +52,9 @@ public class Enemigo : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-        Debug.Log(gameObject.name +" PUREBA 1 -> juegoEnPausa " + juegoEnPausa + " enemigoEnCamino" + enemigoEnCamino + " discantiaTarget" + discantiaTarget + " vision " + vision);
-        if (!juegoEnPausa)//Si el juego no esta en pausa
-        {
+     
+       /* if (!juegoEnPausa)//Si el juego no esta en pausa
+        {*/
             if (enemigoVivo)
             {              
                 discantiaTarget = Vector3.Distance(jugador.transform.position, transformEnemigo.position);
@@ -72,16 +72,16 @@ public class Enemigo : MonoBehaviour {
             {
                 StartCoroutine("EnemigoMuerto");
             }
-        }
-        else if (juegoEnPausa && vidaJugador == 0)//Si el jugador a muerto y el juego no esta pausado
+        //}juegoEnPausa &&
+        else if (vidaJugador == 0)//Si el jugador a muerto y el juego no esta pausado
         {
             StartCoroutine(VolverACasa());
         }
-        else//Si el juego esta en pausa
+       /* else//Si el juego esta en pausa
         {           
             Debug.Log("JUEGO EN PAUSA");           
             StartCoroutine("PausadoEnemigo");           
-        }
+        }*/
 
 
     }
@@ -127,10 +127,10 @@ public class Enemigo : MonoBehaviour {
     }
 
     //Este metodo recibe un mensaje de la clase ControlUI cuando se ha modificado la variable JuegoPausado, indicando si esta en pausa o reanudado
-    public void PausarOReanudadJuego(bool estado)
+   /* public void PausarOReanudadJuego(bool estado)
     {
         juegoEnPausa = estado;
-    }
+    }*/
 
    
     //Cuando le disparamos u na flecha y colisiona con el le quitamos vida(que no es mas que ocultar cubos)
@@ -239,11 +239,10 @@ public class Enemigo : MonoBehaviour {
     }
 
     //El enemigo persigue al jugador
-    IEnumerator PerseguirJugador() {
-        Debug.Log("Enemigo vivo --> " + enemigoVivo);
+    IEnumerator PerseguirJugador() {        
         if (vidaJugador > 0 && !juegoEnPausa && enemigoVivo)
         {
-            Debug.Log("Persiguiendo");
+            //Debug.Log("Persiguiendo");
             animatorGuerrero.SetBool("andar", true);//Empieza a andar             
             navEnemigo.destination = jugador.transform.position;
             enemigoEnCamino = true;
@@ -252,11 +251,12 @@ public class Enemigo : MonoBehaviour {
     }
 
     //Detiene al enemigo cuando se pulsa la tecla Esc mostrando el menu(es decir cuando se pausa el juego)
-    IEnumerator PausadoEnemigo()
+    /*IEnumerator PausadoEnemigo()
     {
+        Debug.Log(gameObject.name + "Para mi el estado del juego es " + juegoEnPausa+ " y la vida del jugador "+vidaJugador );
         if (juegoEnPausa && vidaJugador > 0)//Si el juego esta en pausa
         {
-            Debug.Log("Enemigo parado");
+            Debug.Log(gameObject.name +" Enemigo parado");
             animatorGuerrero.SetBool("andar", false);//Deja de andar             
             navEnemigo.destination = transformEnemigo.position;
             if (enemigoEnCamino)
@@ -269,7 +269,7 @@ public class Enemigo : MonoBehaviour {
                     
         }
         yield return null;
-    }
+    }*/
 
     //Cuando el enemigo muere, se detiene en su posicion actual y realiza la animacion de muerte, pos teriomente es destroido
     IEnumerator EnemigoMuerto()
