@@ -32,8 +32,6 @@ public class ControlUI : MonoBehaviour
     float tiempoAMostrarEnSegundos = 0f;
     public Text textContadorTiempo;
     string textoDeReloj;
-
-
     //Prefab Enemigo
      public GameObject prefabEnemigo;
     int numeroEnemigosTotalesRestantes = 0;
@@ -45,6 +43,10 @@ public class ControlUI : MonoBehaviour
 
     //Victoria 0 indica que ni perdio ni ha gado aun, 1 ha ganado -1 ha perdido
     int hasGanado=0;
+
+    //Pociones
+    public Text textNumPociones;
+    int numPociones = 0;
 
     // Use this for initialization
     void Start()
@@ -75,6 +77,9 @@ public class ControlUI : MonoBehaviour
             Instantiate(prefabEnemigo, puntosRespawn[i].transform.position, puntosRespawn[i].transform.rotation);//Instanciamos Enemigo
            
         }
+
+        //Pociones
+        textNumPociones.text = numPociones.ToString();
        
     }
 
@@ -106,6 +111,10 @@ public class ControlUI : MonoBehaviour
         {
             pintarMenu = true;
         }
+        if (Input.GetKey(KeyCode.Space))//Gasta una pocion si tiene y la vida es inferior al tope (30)
+        {
+            GastarPocion();
+        }
         if (numVidaCorazon == 0 && textContadorTiempo.text != "00:00")//Cuando te han matado, por que tu vida es 0 pero aun tenias tiempo de juego
         {
             pintarMenuFinalPartida = true;//Si esto es verdad el  menu GUi pinta todo menos el boton continuar
@@ -116,7 +125,8 @@ public class ControlUI : MonoBehaviour
         if (numMunicion == 0)//Cuando la municion llega a 0 se avisa a la clase FlechaAnimaDisparo
         {
             GameObject.FindGameObjectWithTag("arma").SendMessage("TieneMunicion", numMunicion);
-        }if (!juegoEnPausa)//Es decir mientras el juego no este en pausa
+        }
+        if (!juegoEnPausa)//Es decir mientras el juego no este en pausa
         {
             StartCoroutine("InstanciarEnemigo");
         }
@@ -265,6 +275,26 @@ public class ControlUI : MonoBehaviour
     private void GanarMonedas(int numMonedas) {
         numeroDeMonedas += numMonedas;
         textNumeroMonedas.text = numeroDeMonedas.ToString();
+        GameObject.FindGameObjectWithTag("cofre").SendMessage("NumeroDeMonedasGanadas", numeroDeMonedas);
+    }
+
+    private void GastarPocion() {
+        Debug.Log(numVidaCorazon);
+        if (numPociones>0 && numVidaCorazon < 30)//Si tiene pociones y la vida es menor de 30 (el tope)
+        {
+            numPociones--;//Disminuimos o restamos una pociones
+            textNumPociones.text = numPociones.ToString();
+            int vidaFaltante = 30 - numVidaCorazon;//Comprobamos cuanta vida falta exactamente
+            numVidaCorazon += vidaFaltante;//Restablecemos la salud
+            textNumVidaCorazon.text = numVidaCorazon.ToString();
+        }
+    }
+
+    //Metodo con el que se comunica  la clase "AperturaCofres" cuando se gana una pocion
+    private void GanarPocion()
+    {
+        numPociones++;
+        textNumPociones.text = numPociones.ToString();
     }
 
 
