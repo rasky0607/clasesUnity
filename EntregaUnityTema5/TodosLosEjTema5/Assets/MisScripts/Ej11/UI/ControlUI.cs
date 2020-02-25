@@ -15,6 +15,7 @@ public class ControlUI : MonoBehaviour
     public int numVidaCorazon;
     public int numVidaInicial=30;//puntos de vida con los que se inica
     public Text textNumeroMonedas;
+    public Text textResultadoJuego;
     int numeroDeMonedas = 0;
     public GameObject panelAyuda1;
     //public GameObject prefabCargarMunicion;
@@ -35,14 +36,20 @@ public class ControlUI : MonoBehaviour
 
     //Prefab Enemigo
      public GameObject prefabEnemigo;
-
+    int numeroEnemigosTotalesRestantes = 0;
     //Conjunto de enemigos
     GameObject[] conjuntoEnemigos;
+
+    //Instanciar mas enemigos cada x segundos
+    bool crearEnemigo=true;
+
+    //Victoria 0 indica que ni perdio ni ha gado aun, 1 ha ganado -1 ha perdido
+    int hasGanado=0;
 
     // Use this for initialization
     void Start()
     {
-       
+        PausarJuego(false);//Quitamos la pausa por si en algunr einicio se queda;
         //Monedas
         textNumeroMonedas.text = numeroDeMonedas.ToString();
         //Municion
@@ -65,7 +72,8 @@ public class ControlUI : MonoBehaviour
         puntosRespawn = GameObject.FindGameObjectsWithTag("puntoRespawn");
         for (int i = 0; i < puntosRespawn.Length; i++)//Instanciamosun enemigo en cada respawn
         {
-            Instantiate(prefabEnemigo, puntosRespawn[i].transform.position, puntosRespawn[i].transform.rotation);//Instanciamos flecha clonada enla posicion del padre 
+            Instantiate(prefabEnemigo, puntosRespawn[i].transform.position, puntosRespawn[i].transform.rotation);//Instanciamos Enemigo
+           
         }
        
     }
@@ -73,23 +81,19 @@ public class ControlUI : MonoBehaviour
     private void FixedUpdate()
     {
         //Reloj
-        if (textContadorTiempo.text != "00:00")
+        if (textContadorTiempo.text != "00:00")//El juego continua y el tiempo sigue corriendo
         {
             escalaDeTiempo = Time.deltaTime * velocidadDelTiempo;
             tiempoAMostrarEnSegundos -= escalaDeTiempo;
             RelojTiempoJuego(tiempoAMostrarEnSegundos);
         }
-        else if (textContadorTiempo.text == "00:00")
+        else if (textContadorTiempo.text == "00:00")// Perdio!
         {
             //Fin del juego
-        }
-        else
-        {//Se para el juego por que el tiempo llego a 00:00
-         //juegoEnPausa = true;
-         //NotificarJuegoEnPausa();
-            PausarJuego(true);//Pausamos el juego
+            pintarMenu = true;//Pintamos el menu por lo que pararemos el juego
+            hasGanado = -1;//Indicamos que el jugador a perdido, lo que en el metodo 
 
-        }
+        }      
 
     }
 
@@ -105,6 +109,7 @@ public class ControlUI : MonoBehaviour
         if (numVidaCorazon == 0 && textContadorTiempo.text != "00:00")//Cuando te han matado, por que tu vida es 0 pero aun tenias tiempo de juego
         {
             pintarMenuFinalPartida = true;//Si esto es verdad el  menu GUi pinta todo menos el boton continuar
+            hasGanado = -1;//Indicamos que le jugador a perdido (lo que mostrara un mensaje al jugador de que ha perdido)
             pintarMenu = true;           
 
         }
@@ -115,13 +120,30 @@ public class ControlUI : MonoBehaviour
         {
             StartCoroutine("InstanciarEnemigo");
         }
+        numeroEnemigosTotalesRestantes = GameObject.FindGameObjectsWithTag("enemigo").Length;//Cuantos  objetos con el tag enemigo tenemos en la escena actualmente.
+        if (numeroEnemigosTotalesRestantes == 0)
+        {
+            Debug.Log("GANASSTEEEEEEEEEEEEEEEEE!!!");          
+            hasGanado = 1;//Indicamos que ha ganado la partida
+            pintarMenuFinalPartida = true;//Indicamos que la partida se termino, para que pinte el menu correspondiente
+            pintarMenu = true;//Ejecutamos el pintar menu GUI y a la vez en este mismo pausamos el juego
+        }
+          
 
     }
 
-    IEnumerator InstanciarEnemigo() {
-        GameObject puntoParaInstanciar = puntosRespawn[Random.Range(0, puntosRespawn.Length)];
-        Instantiate(prefabEnemigo, puntoParaInstanciar.transform.position, puntoParaInstanciar.transform.rotation);//Instanciamos flecha clonada enla posicion del padre 
-        yield return new WaitForSeconds(30F);
+    //Este metodo instancia un enemigo cada 30 segundos en un punto aleatorio del mapa
+    IEnumerator InstanciarEnemigo() { 
+        if (crearEnemigo)
+        {
+            crearEnemigo = false;//Flag para controlar la espera
+            yield return new WaitForSeconds(30F);//esperamos 30 segundos 
+            GameObject puntoParaInstanciar = puntosRespawn[Random.Range(0, puntosRespawn.Length)];//Punto aleatorio
+            Instantiate(prefabEnemigo, puntoParaInstanciar.transform.position, puntoParaInstanciar.transform.rotation);//Instanciar enemigo           
+            crearEnemigo = true;//Hasta que no pasan 30 segundos este flag no vuelve a ser true, por lo que nos aseguramos que siempre espere 30 segundos de lo contrario solo esperaria una vez
+
+        }
+
     }
 
    /*Este metodo para o reanuda el juego
@@ -134,11 +156,6 @@ public class ControlUI : MonoBehaviour
             Time.timeScale = 1;//Velocidad del juego normal     
     }
 
-    //Este metodo puede  recibir un mensaje desde cualquier otra clase para cambiar el valor de la variable pintarMenu a true
-    public void ActivarPintarMenu() {
-        pintarMenu = true;
-    }
-
     //Pintamos el Menu
     private void OnGUI()
     {
@@ -146,13 +163,11 @@ public class ControlUI : MonoBehaviour
         {
             Menu();
         }
-
     }
 
     private void Menu()
-    {
-        //NotificarJuegoEnPausa();
-        PausarJuego(true);
+    {      
+        PausarJuego(true);//Paramos el juego
         int ancho = 200;
         int alto = 30;
         int x = (Screen.width / 2) - (ancho / 2);//Cogemos el ancho de  la pantall lo dividimos entre 2 y  le restamos nuestro ancho entre 2
@@ -167,11 +182,26 @@ public class ControlUI : MonoBehaviour
             if (GUI.Button(areaButn2, new GUIContent("Continuar")))
             {
                 pintarMenu = false;//Dejamos de pintar el menu GUI
-                //juegoEnPausa = false;//Quitamos pausa del juego
-                                     // NotificarJuegoEnPausa();
+                                   //juegoEnPausa = false;//Quitamos pausa del juego
+                                   // NotificarJuegoEnPausa();
                 PausarJuego(false);//Al hacer click en el boton continuar reanudamos el juego.
 
             }
+        }
+        else {//En caso de que la partida finalizase, es decir pintarMenuFinalParida sea true
+            if (hasGanado == 1)//El jugador ha GANADO
+            {
+                
+                //GUI.Label(areaButn2, "Has Ganado!");
+                textResultadoJuego.color = Color.green;
+                textResultadoJuego.text = "Has Ganado ^.^!";
+            }
+            else if (hasGanado == -1)//El jugador ha perdido
+            {
+                //GUI.Label(areaButn2, "Has Perdido!");
+                textResultadoJuego.color = Color.red;
+                textResultadoJuego.text = "Has Perdido! v.v ";
+            }  
         }
         //Dejamos de pintar menu y pintamos una ventana nueva de ayuda sobre el juego
         if (GUI.Button(areaButn3, new GUIContent("Ayuda")))
@@ -182,20 +212,8 @@ public class ControlUI : MonoBehaviour
         }
         //Reiniciamos la escena Ej11 para reiniciar el juego 
         if (GUI.Button(areaButn4, new GUIContent("Reiniciar")))
-        {
+        {        
             SceneManager.LoadScene("Ej11");
-            juegoEnPausa = false;
-            //NotificarJuegoEnPausa();
-            PausarJuego(false);//Desactivamos la pausa antes de recargar, para restablecer el la velocidad del juego con  Time.timeScale = 1; en lugar de 0.
-            pintarMenu = false;
-            /*if (pintarMenuFinalPartida)
-            {
-                numVidaCorazon = 10;
-                pintarMenuFinalPartida = false;
-            }*/
-           
-          
-
         }
         //Salimos del juego y cargamos la escena del Menu Ej1Menu
         if (GUI.Button(areaButn5, new GUIContent("Salir")))
@@ -203,8 +221,6 @@ public class ControlUI : MonoBehaviour
             SceneManager.LoadScene("Ej1Menu");
         }
     }
-
-
 
     //Calcula el tiempo pasado en segundos a minutos y segundos  para mostrarlo
     private void RelojTiempoJuego(float tiempoEnSegundos)
@@ -241,8 +257,7 @@ public class ControlUI : MonoBehaviour
         {      
             numVidaCorazon -= danio;
             textNumVidaCorazon.text = numVidaCorazon.ToString();
-            foreach (GameObject item in conjuntoEnemigos)//Informamos a cada uno de los objetos con ese tag
-                GameObject.FindGameObjectWithTag(item.tag).SendMessage("InformarAlEnemigoDeVidaDeJugador", numVidaCorazon);//Informamos al enemigo de la vida del jugador para que sepa cuando parar de atacar
+           
             //GameObject.FindGameObjectWithTag("enemigo").SendMessage("InformarAlEnemigoDeVidaDeJugador", numVidaCorazon);//Informamos al enemigo que la vida del jugador cambio para que sepa si debe parar de atacar
         }
     }

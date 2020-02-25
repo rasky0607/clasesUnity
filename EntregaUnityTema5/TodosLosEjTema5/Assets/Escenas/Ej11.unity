@@ -17382,6 +17382,81 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4695228377171464, guid: fd5f68f262245d34fb94a07b1cb47a50,
     type: 2}
   m_PrefabInternal: {fileID: 978126926}
+--- !u!1 &980587585
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 980587588}
+  - component: {fileID: 980587587}
+  - component: {fileID: 980587586}
+  m_Layer: 5
+  m_Name: TextResultadoJuego
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &980587586
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 980587585}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.42376554, g: 0.8773585, b: 0.10346207, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 21
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 0
+    m_MaxSize: 40
+    m_Alignment: 1
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 1
+    m_VerticalOverflow: 1
+    m_LineSpacing: 1
+  m_Text: 
+--- !u!222 &980587587
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 980587585}
+  m_CullTransparentMesh: 0
+--- !u!224 &980587588
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 980587585}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1229510973}
+  m_RootOrder: 11
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.42259568, y: 0.703}
+  m_AnchorMax: {x: 0.58400005, y: 0.81973064}
+  m_AnchoredPosition: {x: 0.19999695, y: 2.0999985}
+  m_SizeDelta: {x: -17, y: -9}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &985675135
 GameObject:
   m_ObjectHideFlags: 0
@@ -17393,8 +17468,8 @@ GameObject:
   - component: {fileID: 985675138}
   - component: {fileID: 985675137}
   - component: {fileID: 985675141}
-  - component: {fileID: 985675140}
   - component: {fileID: 985675136}
+  - component: {fileID: 985675140}
   m_Layer: 0
   m_Name: CuerpoJugador
   m_TagString: jugador
@@ -17481,7 +17556,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8875207e265eddc43884b5aa9498b0f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  velocidadAndar: 25
+  velocidadAndar: 8
   velocidadRotacion: 40
   camaraJugador: {fileID: 534669902}
 --- !u!54 &985675141
@@ -21847,6 +21922,7 @@ RectTransform:
   - {fileID: 20986524}
   - {fileID: 779601456}
   - {fileID: 138474605}
+  - {fileID: 980587588}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -21872,6 +21948,7 @@ MonoBehaviour:
   numVidaCorazon: 0
   numVidaInicial: 30
   textNumeroMonedas: {fileID: 616000842}
+  textResultadoJuego: {fileID: 980587586}
   panelAyuda1: {fileID: 779601455}
   pintarMenu: 0
   velocidadDelTiempo: 1

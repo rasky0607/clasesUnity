@@ -88,7 +88,7 @@ public class Enemigo : MonoBehaviour
         }
         else if (vidaJugador == 0)//Si el jugador a muerto y el juego no esta pausado
         {
-            StartCoroutine(VolverACasa());
+            //StartCoroutine(VolverACasa());
         }
         /* else//Si el juego esta en pausa
          {           
@@ -236,13 +236,12 @@ public class Enemigo : MonoBehaviour
                     //Enviamos la notificacion a la Script ControlUI, la cual esta asociada al Canvas que tiene un tag UI para que el jugador pueda ver que le quitaron vida
                     GameObject.FindWithTag("UI").SendMessage("QuitarVida", danioDeAtaque);
                     Debug.Log("Menos 5 de vida");
-                    quitarVida = true;
-                
+                    quitarVida = true;             
 
             }
 
         }
-        else if (enemigoVivo && juegoEnPausa)/*Si esta pausado paramos la animacion de atacar(de otro modo puede que ne el caso de parar el juego
+        else if (enemigoVivo)/*Si esta pausado paramos la animacion de atacar(de otro modo puede que ne el caso de parar el juego
             justo cuando empieza a pegar, no pare de realizar la animacion, aunq ue no quite vida)*/
         {
             animatorGuerrero.SetBool("andar", false);//Deja de andar
@@ -253,6 +252,7 @@ public class Enemigo : MonoBehaviour
     //El enemigo persigue al jugador
     IEnumerator PerseguirJugador()
     {
+        velocidad = 3.5F;
         if (vidaJugador > 0 && enemigoVivo)
         {
             //Debug.Log("Persiguiendo");
@@ -283,7 +283,7 @@ public class Enemigo : MonoBehaviour
     }
 
     //Devuelve el Enemigo a la zona donde empezo aprozimadamente y cuando llega desactiva la animacion de andar
-    IEnumerator VolverACasa()
+    /*IEnumerator VolverACasa()
     {
         animatorGuerrero.SetBool("atacar", false);//Deja de atacar
         float areaDePosicion = 2;
@@ -297,7 +297,7 @@ public class Enemigo : MonoBehaviour
         }
 
         yield return null;
-    }
+    }*/
 
 
 

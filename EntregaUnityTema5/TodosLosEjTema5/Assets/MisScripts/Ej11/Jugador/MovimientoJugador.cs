@@ -4,24 +4,22 @@ using UnityEngine;
 
 public class MovimientoJugador : MonoBehaviour {
 
-    public float velocidadAndar = 25F;
+    public float velocidadAndar = 5F;
     public float velocidadRotacion = 40F;
     public GameObject camaraJugador;
-    float posY;
     //Levantarse
     Quaternion orientacionInicial;
-    //Estado del juego Pausado/Reanudado
-    bool juegoEnPausa = false;
+
 
     // Use this for initialization
     void Start () {
+        velocidadAndar = 5F;
         orientacionInicial = transform.rotation;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        if (!juegoEnPausa)//Si juego en pausa es distinto de verdad o sea , no esta en pausa
-        {
+    
             //transform.Rotate(0, Input.GetAxis("Horizontal") * velocidad, 0);
             //Giro de personaje hacia los lados con el raton
             transform.Rotate(0, Input.GetAxis("Mouse X") * velocidadRotacion * Time.deltaTime, 0);
@@ -35,7 +33,7 @@ public class MovimientoJugador : MonoBehaviour {
             //Boton derecho del raton para levantar el personaje cuando se cae
             if (Input.GetMouseButtonDown(1))
                 Levantarse();
-        }
+        
     }
     //Colocamos el muñeco de pie
     public void Levantarse()
@@ -43,11 +41,7 @@ public class MovimientoJugador : MonoBehaviour {
         transform.SetPositionAndRotation(transform.position, orientacionInicial);
     }
 
-    //Este metodo recibe un mensaje de la clase ControlUI cuando se ha modificado la variable JuegoPausado, indicando si esta en pausa o reanudado
-    public void PausarOReanudadJuego(bool estado)
-    {
-        juegoEnPausa = estado;
-    }
+
 
 
 }
