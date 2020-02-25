@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Enemigo : MonoBehaviour {
+public class Enemigo : MonoBehaviour
+{
 
     Animator animatorGuerrero;
     GameObject jugador;
     public float vision = 8;//Area  a la que el enemigo puede detectar al jugador
-    float discantiaTarget=0;
-    Vector3 posInicial; //Posicion Inicial del enemigo al arrancar
-    public float velocidad =1F;
+    float discantiaTarget = 0;
+
+    public float velocidad = 1F;
     bool quitarVida;
     //NavMeshAgent del enemigo para evitar obstaculos
     NavMeshAgent navEnemigo;
@@ -34,10 +35,20 @@ public class Enemigo : MonoBehaviour {
     //Estado del juego Pausado/Reanudado
     bool juegoEnPausa = false;
     //Vida jugador
-    int vidaJugador=30;
+    int vidaJugador = 30;
+
+    //Patrullar
+    public float distanciaPatrulla;
+    private float contadorPatrulla;
+    Vector3 posInicial; //Posicion Inicial del enemigo al arrancar
+    bool movimientoPatrulla;
+    int movimientoEscogido = 3;
+    /*OBjecto conjunto componentes del enemigo ,es decir su cuerpo mas los puntos de ruta,
+    este tambiene s necesario recogerlo, ya que es necesario destruirlo al destrutir el objeto enemigo tambien*/
 
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
         transformEnemigo = gameObject.GetComponent<Transform>();
         jugador = GameObject.FindGameObjectWithTag("jugador");
         animatorGuerrero = GetComponent<Animator>();
@@ -46,67 +57,76 @@ public class Enemigo : MonoBehaviour {
 
         //NavMeshAgent del enemigo para evitar obstaculos
         navEnemigo = GetComponent<NavMeshAgent>();
+        //Patrulla
+        distanciaPatrulla = 12F;
+        movimientoPatrulla = true;
 
 
     }
 
     // Update is called once per frame
-    void Update () {
-     
-       /* if (!juegoEnPausa)//Si el juego no esta en pausa
-        {*/
-            if (enemigoVivo)
-            {              
-                discantiaTarget = Vector3.Distance(jugador.transform.position, transformEnemigo.position);
-                if (discantiaTarget < vision || enemigoEnCamino)//Si la distancia entre el jugador y el enemigo es menor que la vision, entonces se dirige a por el jugador
-                {   
-                    StartCoroutine(PerseguirJugador());
-                }
-                else//Si no esta en el rango de vision del enemigo el jugador, el enemigo se mueve entre los puntos a y b
-                {
-                    StartCoroutine("Patrullar");
-                    Debug.Log("No persigue!");
-                }
-            }
-            else if (!enemigoVivo)//Si muere el enemigo
+    void Update()
+    {
+
+        if (enemigoVivo)
+        {
+            discantiaTarget = Vector3.Distance(jugador.transform.position, transformEnemigo.position);
+            if (discantiaTarget < vision || enemigoEnCamino)//Si la distancia entre el jugador y el enemigo es menor que la vision, entonces se dirige a por el jugador
             {
-                StartCoroutine("EnemigoMuerto");
+                StartCoroutine(PerseguirJugador());
             }
-        //}juegoEnPausa &&
+            else//Si no esta en el rango de vision del enemigo el jugador, el enemigo se mueve entre los puntos a y b
+            {
+                StartCoroutine("Patrullar");
+                //Debug.Log("No persigue!");
+              
+            }
+        }
+        else if (!enemigoVivo)//Si muere el enemigo
+        {
+            StartCoroutine("EnemigoMuerto");
+        }
         else if (vidaJugador == 0)//Si el jugador a muerto y el juego no esta pausado
         {
             StartCoroutine(VolverACasa());
         }
-       /* else//Si el juego esta en pausa
-        {           
-            Debug.Log("JUEGO EN PAUSA");           
-            StartCoroutine("PausadoEnemigo");           
-        }*/
+        /* else//Si el juego esta en pausa
+         {           
+             Debug.Log("JUEGO EN PAUSA");           
+             StartCoroutine("PausadoEnemigo");           
+         }*/
 
 
     }
-     
-   
-    IEnumerator Patrullar() {
 
-      
+
+    IEnumerator Patrullar()
+    {    
+       
+        contadorPatrulla += Time.deltaTime * velocidad;//Tiempo para realizar el movimiento    
+                
+        if (movimientoEscogido <= 3)//En eje X
+        {
+            animatorGuerrero.SetBool("andar", true);//Empieza a andar
+            navEnemigo.destination = new Vector3(Mathf.PingPong(contadorPatrulla, distanciaPatrulla) + posInicial.x, posInicial.y, posInicial.z);//Movimiento pingpong
+        }
+        if (movimientoEscogido > 3)//En eje Z
+        {
+            animatorGuerrero.SetBool("andar", true);//Empieza a andar
+            navEnemigo.destination = new Vector3(posInicial.x, posInicial.y, Mathf.PingPong(contadorPatrulla, distanciaPatrulla) + posInicial.z);
+        }
+
+        if (movimientoPatrulla)//Esta  bandera nos permite quitar vida solo cada 4 segundos de forma continua(de lo contrario solo esperaria 4 segundos la primera vez)
+        {
+            movimientoPatrulla = false;
+            yield return new WaitForSeconds(contadorPatrulla);//esperamos lo que tarda en hacer el movimiento para lanzar un nuevo randon que selecione el nuevo movimiento 
+            movimientoEscogido = Random.Range(0, 5);
+            animatorGuerrero.SetBool("andar", false);//Deja de andar
+            movimientoPatrulla = true; //Activamos de nuevo la bandera para que pueda  volver a esperar el tiempo indicado para lanzar el siguiente random de otro modo lanzaira sin parar y solo esperaria la primera vez          
+        }
         yield return null;
-    
-    }
 
-   /* private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.tag == "puntoA")
-        {
-            Debug.Log("ENTRE EN A");
-            IrAunPuntoDeUnObjeto(puntoB.transform);
-        }
-        if (other.gameObject.tag == "puntoB")
-        {
-            Debug.Log("ENTRE EN B");
-            IrAunPuntoDeUnObjeto(puntoA.transform);
-        }
-    }*/
+    }
 
     //Ir a un punto concreto en relacion al transform del objeto destino
     public void IrAunPuntoDeUnObjeto(Transform transformDestino)
@@ -126,13 +146,7 @@ public class Enemigo : MonoBehaviour {
         }
     }
 
-    //Este metodo recibe un mensaje de la clase ControlUI cuando se ha modificado la variable JuegoPausado, indicando si esta en pausa o reanudado
-   /* public void PausarOReanudadJuego(bool estado)
-    {
-        juegoEnPausa = estado;
-    }*/
 
-   
     //Cuando le disparamos u na flecha y colisiona con el le quitamos vida(que no es mas que ocultar cubos)
     private void OnCollisionEnter(Collision collision)
     {
@@ -146,7 +160,7 @@ public class Enemigo : MonoBehaviour {
                     switch (vidaEnemigo)
                     {
                         case 0:
-                            cincoDeVida.GetComponent<Renderer>().enabled = false; ;                        
+                            cincoDeVida.GetComponent<Renderer>().enabled = false; ;
                             enemigoVivo = false;//Esta muerto
                             enemigoEnCamino = false;//para de perseguir al jugador
 
@@ -182,10 +196,9 @@ public class Enemigo : MonoBehaviour {
             if (enemigoVivo)
             {
                 //andamos
-                animatorGuerrero.SetBool("atacar", false);//Dejo de atacar
-                //animatorGuerrero.SetBool("andar", true);//Empieza a andar
+                animatorGuerrero.SetBool("atacar", false);//Dejo de atacar               
             }
-           
+
         }
     }
 
@@ -200,18 +213,18 @@ public class Enemigo : MonoBehaviour {
             else if (juegoEnPausa)
                 StopCoroutine("Atacar");
         }
-      
+
     }
     //El enemigo optiene la cantiddad de vida del jugador para saber si debe parar de atacar
-    public void InformarAlEnemigoDeVidaDeJugador(int numVidaJugador) {
-        vidaJugador = numVidaJugador;     
+    public void InformarAlEnemigoDeVidaDeJugador(int numVidaJugador)
+    {
+        vidaJugador = numVidaJugador;
     }
 
     //El enemigo resta vida al jugador cada 4 segundos
     IEnumerator Atacar()
-    {
-        //Debug.Log("1 METODO ATACANDO ESTADO  JUEGO -->" + juegoEnPausa);
-        if (enemigoVivo && !juegoEnPausa)//Si el enemigo esta vivo y el juego no esta en pausa
+    {   
+        if (enemigoVivo)//Si el enemigo esta vivo y el juego no esta en pausa
         {
             animatorGuerrero.SetBool("andar", false);//Deja de andar
             animatorGuerrero.SetBool("atacar", true);//Empieza a  atacar
@@ -219,18 +232,17 @@ public class Enemigo : MonoBehaviour {
             {
                 quitarVida = false;
                 yield return new WaitForSeconds(1.8F);//esperamos 1.8 segundos 
-                if (!juegoEnPausa)//Si no esta en pausa le quitamos vida
-                {
+              
                     //Enviamos la notificacion a la Script ControlUI, la cual esta asociada al Canvas que tiene un tag UI para que el jugador pueda ver que le quitaron vida
                     GameObject.FindWithTag("UI").SendMessage("QuitarVida", danioDeAtaque);
                     Debug.Log("Menos 5 de vida");
                     quitarVida = true;
-                }
+                
 
             }
 
         }
-        else if (enemigoVivo &&juegoEnPausa)/*Si esta pausado paramos la animacion de atacar(de otro modo puede que ne el caso de parar el juego
+        else if (enemigoVivo && juegoEnPausa)/*Si esta pausado paramos la animacion de atacar(de otro modo puede que ne el caso de parar el juego
             justo cuando empieza a pegar, no pare de realizar la animacion, aunq ue no quite vida)*/
         {
             animatorGuerrero.SetBool("andar", false);//Deja de andar
@@ -239,8 +251,9 @@ public class Enemigo : MonoBehaviour {
     }
 
     //El enemigo persigue al jugador
-    IEnumerator PerseguirJugador() {        
-        if (vidaJugador > 0 && !juegoEnPausa && enemigoVivo)
+    IEnumerator PerseguirJugador()
+    {
+        if (vidaJugador > 0 && enemigoVivo)
         {
             //Debug.Log("Persiguiendo");
             animatorGuerrero.SetBool("andar", true);//Empieza a andar             
@@ -249,27 +262,6 @@ public class Enemigo : MonoBehaviour {
         }
         yield return null;
     }
-
-    //Detiene al enemigo cuando se pulsa la tecla Esc mostrando el menu(es decir cuando se pausa el juego)
-    /*IEnumerator PausadoEnemigo()
-    {
-        Debug.Log(gameObject.name + "Para mi el estado del juego es " + juegoEnPausa+ " y la vida del jugador "+vidaJugador );
-        if (juegoEnPausa && vidaJugador > 0)//Si el juego esta en pausa
-        {
-            Debug.Log(gameObject.name +" Enemigo parado");
-            animatorGuerrero.SetBool("andar", false);//Deja de andar             
-            navEnemigo.destination = transformEnemigo.position;
-            if (enemigoEnCamino)
-                enemigoEnCamino = true;
-            else if (!enemigoEnCamino)
-            {
-                enemigoEnCamino = false;
-            }
-            
-                    
-        }
-        yield return null;
-    }*/
 
     //Cuando el enemigo muere, se detiene en su posicion actual y realiza la animacion de muerte, pos teriomente es destroido
     IEnumerator EnemigoMuerto()
@@ -284,19 +276,20 @@ public class Enemigo : MonoBehaviour {
             enemigoEnCamino = false;
             yield return new WaitForSeconds(0.92F);
             Destroy(gameObject);
-            GameObject.FindWithTag("UI").SendMessage("GanarMonedas",Random.Range(1,5));
+            GameObject.FindWithTag("UI").SendMessage("GanarMonedas", Random.Range(1, 5));
         }
-      
-      
+
+
     }
 
     //Devuelve el Enemigo a la zona donde empezo aprozimadamente y cuando llega desactiva la animacion de andar
-    IEnumerator VolverACasa() {
+    IEnumerator VolverACasa()
+    {
         animatorGuerrero.SetBool("atacar", false);//Deja de atacar
         float areaDePosicion = 2;
         Vector3 puntoDevuelta = posInicial;//Posicion Inicial del objeto
         navEnemigo.destination = puntoDevuelta;
-        discantiaTarget = Vector3.Distance(puntoDevuelta, transformEnemigo.position);      
+        discantiaTarget = Vector3.Distance(puntoDevuelta, transformEnemigo.position);
         if (discantiaTarget < areaDePosicion)//Si la distancia entre el discantiaTarget y el enemigo es menor que la areaDePosInicial, entonces llego a casa
         {
             navEnemigo.destination = transformEnemigo.position;//Para que se pare

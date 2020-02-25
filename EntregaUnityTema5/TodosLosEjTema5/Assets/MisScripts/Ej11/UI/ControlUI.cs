@@ -49,7 +49,7 @@ public class ControlUI : MonoBehaviour
         numMunicion = municionInicial;
         textNumMunicion.text = numMunicion.ToString();
         GameObject.FindGameObjectWithTag("arma").SendMessage("TieneMunicion", numMunicion);//Actualizamos la  varible numMunicion de la clase FlechaAnimaDisparo al empezar(haremos los mismo al recargar)
-        //Recolecion de conjunto de gameobject cone l tag "enemigo"
+        //Recolecion de conjunto de gameobject con el tag "enemigo"
         conjuntoEnemigos = GameObject.FindGameObjectsWithTag("enemigo");
 
         //Vida
@@ -63,10 +63,10 @@ public class ControlUI : MonoBehaviour
 
         //Recoger puntos de Respawn
         puntosRespawn = GameObject.FindGameObjectsWithTag("puntoRespawn");
-        /*for (int i = 0; i < puntosRespawn.Length; i++)
+        for (int i = 0; i < puntosRespawn.Length; i++)//Instanciamosun enemigo en cada respawn
         {
-            Debug.Log("respawn "+i +"--> "+puntosRespawn[i].transform.position);
-        }*/
+            Instantiate(prefabEnemigo, puntosRespawn[i].transform.position, puntosRespawn[i].transform.rotation);//Instanciamos flecha clonada enla posicion del padre 
+        }
        
     }
 
@@ -79,10 +79,16 @@ public class ControlUI : MonoBehaviour
             tiempoAMostrarEnSegundos -= escalaDeTiempo;
             RelojTiempoJuego(tiempoAMostrarEnSegundos);
         }
+        else if (textContadorTiempo.text == "00:00")
+        {
+            //Fin del juego
+        }
         else
         {//Se para el juego por que el tiempo llego a 00:00
-            juegoEnPausa = true;
-            NotificarJuegoEnPausa();
+         //juegoEnPausa = true;
+         //NotificarJuegoEnPausa();
+            PausarJuego(true);//Pausamos el juego
+
         }
 
     }
@@ -105,8 +111,10 @@ public class ControlUI : MonoBehaviour
         if (numMunicion == 0)//Cuando la municion llega a 0 se avisa a la clase FlechaAnimaDisparo
         {
             GameObject.FindGameObjectWithTag("arma").SendMessage("TieneMunicion", numMunicion);
+        }if (!juegoEnPausa)//Es decir mientras el juego no este en pausa
+        {
+            StartCoroutine("InstanciarEnemigo");
         }
-        //StartCoroutine("InstanciarEnemigo"); 
 
     }
 
@@ -116,16 +124,14 @@ public class ControlUI : MonoBehaviour
         yield return new WaitForSeconds(30F);
     }
 
-    //Enviamos un mensaje a todas las clases para indicar que el juego esta pausado
-    public void NotificarJuegoEnPausa() {
-        GameObject.FindGameObjectWithTag("arma").SendMessage("PausarOReanudadJuego", juegoEnPausa);
-        GameObject.FindGameObjectWithTag("jugador").SendMessage("PausarOReanudadJuego", juegoEnPausa);
-        /*foreach (GameObject item in conjuntoEnemigos)
-            GameObject.FindGameObjectWithTag(item.tag).SendMessage("PausarOReanudadJuego", juegoEnPausa);*/
-        //GameObject.FindGameObjectWithTag("enemigo").SendMessage("PausarOReanudadJuego", juegoEnPausa);      
-    }
-    public void PausarJuego() {
-        Time.timeScale = 0;
+   /*Este metodo para o reanuda el juego
+    Si el parametro pasado es true --> pausra el juego, si es false lo reanudara*/
+    public void PausarJuego(bool pausa) {
+        juegoEnPausa = pausa;
+        if(juegoEnPausa)
+            Time.timeScale = 0;//Velocidad del juego nula por lo tanto parada
+        else if(!juegoEnPausa)
+            Time.timeScale = 1;//Velocidad del juego normal     
     }
 
     //Este metodo puede  recibir un mensaje desde cualquier otra clase para cambiar el valor de la variable pintarMenu a true
@@ -145,10 +151,8 @@ public class ControlUI : MonoBehaviour
 
     private void Menu()
     {
-        juegoEnPausa = true;//Ponemos en pausa el juego
-        NotificarJuegoEnPausa();
-        if(juegoEnPausa)
-            PausarJuego();
+        //NotificarJuegoEnPausa();
+        PausarJuego(true);
         int ancho = 200;
         int alto = 30;
         int x = (Screen.width / 2) - (ancho / 2);//Cogemos el ancho de  la pantall lo dividimos entre 2 y  le restamos nuestro ancho entre 2
@@ -159,13 +163,13 @@ public class ControlUI : MonoBehaviour
         Rect areaButn5 = new Rect(x, y + 80, ancho, alto);
         if (!pintarMenuFinalPartida)//Si esto es falso, es por que el juego no ha terminado al menos por la muerte del jugador(es decir tiene tiempo y vida) y el menu pintara el boton de continuar
         {
-            //Continuamos el juego por l o que dejamos de pintar el menu
+            //Al hacer click en este boton "Continuar" Continuamos el juego por lo que dejamos de pintar el menu y reanudamos el juego
             if (GUI.Button(areaButn2, new GUIContent("Continuar")))
             {
                 pintarMenu = false;//Dejamos de pintar el menu GUI
-                juegoEnPausa = false;//Quitamos pausa del juego
-                NotificarJuegoEnPausa();
-                Time.timeScale = 1F;
+                //juegoEnPausa = false;//Quitamos pausa del juego
+                                     // NotificarJuegoEnPausa();
+                PausarJuego(false);//Al hacer click en el boton continuar reanudamos el juego.
 
             }
         }
@@ -181,13 +185,14 @@ public class ControlUI : MonoBehaviour
         {
             SceneManager.LoadScene("Ej11");
             juegoEnPausa = false;
-            NotificarJuegoEnPausa();
+            //NotificarJuegoEnPausa();
+            PausarJuego(false);//Desactivamos la pausa antes de recargar, para restablecer el la velocidad del juego con  Time.timeScale = 1; en lugar de 0.
             pintarMenu = false;
-            if (pintarMenuFinalPartida)
+            /*if (pintarMenuFinalPartida)
             {
                 numVidaCorazon = 10;
                 pintarMenuFinalPartida = false;
-            }
+            }*/
            
           
 

@@ -17,8 +17,6 @@ public class FlechaAnimaDisparo : MonoBehaviour {
 
     //Municion
     int numMunicion;
-    //Estado del juego Pausado/Reanudado
-    bool juegoEnPausa = false;
 
     //Corrutinas recogidas
     Coroutine coruCrearFlechas;
@@ -37,7 +35,7 @@ public class FlechaAnimaDisparo : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (!juegoEnPausa)//Si juego en pausa es distintod e verdad o sea , no esta en pausa
+        if (Time.timeScale!=0F)//Si juego no esta pausa es decir si Time.timeScale es 1(velocidad normal) o distinto de 0
         {        
             if (numMunicion>0)
             {
@@ -50,8 +48,9 @@ public class FlechaAnimaDisparo : MonoBehaviour {
                 if (Input.GetMouseButtonUp(0))
                 {//Cuando se suelta el boton IZq del raton, terminamos la animacion hacia delante y lanzamos la flecha
                     cargaFlecha.SetBool("Cargando", false);//"Cargando" es el boleano del control de animacion ControlAnimacionFlecha         
-                    coruCrearFlechas= StartCoroutine(CrearFlechaClonada());//Creamos la flecha clonada que va ser disparada, esta flecha disparada tiene su propio script para los disparos
+                    coruCrearFlechas= StartCoroutine(CrearFlechaClonada());//Creamos la flecha clonada que va ser disparada, esta flecha disparada tiene su propio script para los disparos   
                 }
+
             }
             else
             {
@@ -59,6 +58,7 @@ public class FlechaAnimaDisparo : MonoBehaviour {
                 mrFlechaAnimada.enabled = false;
                 StopCoroutine(coruCrearFlechas);//Paramos la corutina
                 StopCoroutine(coruEsperarRecaga);//Paramos la corutina
+
             }
         }
             
@@ -67,12 +67,6 @@ public class FlechaAnimaDisparo : MonoBehaviour {
     //PReguntamos si el arco tiene municion atrvés de un mensaje enviado desde la clase ControlUI
     public void TieneMunicion(int numMunicion) {
         this.numMunicion = numMunicion;     
-    }
-
-    //Este metodo recibe un mensaje de la clase ControlUI cuando se ha modificado la variable JuegoPausado, indicando si esta en pausa o reanudado
-    public void PausarOReanudadJuego(bool estado)
-    {
-        juegoEnPausa = estado;
     }
 
 
