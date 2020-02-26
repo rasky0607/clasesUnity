@@ -43,8 +43,8 @@ public class Enemigo : MonoBehaviour
     Vector3 posInicial; //Posicion Inicial del enemigo al arrancar
     bool movimientoPatrulla;
     int movimientoEscogido = 3;
-    /*OBjecto conjunto componentes del enemigo ,es decir su cuerpo mas los puntos de ruta,
-    este tambiene s necesario recogerlo, ya que es necesario destruirlo al destrutir el objeto enemigo tambien*/
+    //Sonidos
+    public AudioSource sonidosEnemigo;
 
     // Use this for initialization
     void Start()
@@ -60,7 +60,7 @@ public class Enemigo : MonoBehaviour
         //Patrulla
         distanciaPatrulla = 12F;
         movimientoPatrulla = true;
-
+        sonidosEnemigo.clip = null;
 
     }
 
@@ -175,6 +175,10 @@ public class Enemigo : MonoBehaviour
                             veinteDeVida.GetComponent<Renderer>().enabled = false;
                             break;
                     }
+                    //Sonido flecha golpeando
+                    sonidosEnemigo.clip = Resources.Load<AudioClip>("Ej11/Sonidos/golpeFlechaEnMetal");//Accedemos al recurso que va a reproducirse
+                    sonidosEnemigo.volume = 0.6F;
+                    sonidosEnemigo.Play();
                 }
                 if (!enemigoEnCamino)//Si no lo esta persiguiendo al sufrir daño, lo empezara a perseguir
                     enemigoEnCamino = true;
@@ -209,7 +213,9 @@ public class Enemigo : MonoBehaviour
         {
             //Atacamos
             if (vidaJugador > 0)
+            {              
                 StartCoroutine("Atacar");
+            }
             else if (juegoEnPausa)
                 StopCoroutine("Atacar");
         }
@@ -226,6 +232,8 @@ public class Enemigo : MonoBehaviour
     {   
         if (enemigoVivo)//Si el enemigo esta vivo y el juego no esta en pausa
         {
+            //Sonido de ataque de espada
+            GameObject.FindGameObjectWithTag("jugador").SendMessage("GolpeDeEspada");          
             animatorGuerrero.SetBool("andar", false);//Deja de andar
             animatorGuerrero.SetBool("atacar", true);//Empieza a  atacar
             if (quitarVida)//Esta  bandera nos permite quitar vida solo cada 4 segundos de forma continua(de lo contrario solo esperaria 4 segundos la primera vez)
@@ -236,7 +244,7 @@ public class Enemigo : MonoBehaviour
                     //Enviamos la notificacion a la Script ControlUI, la cual esta asociada al Canvas que tiene un tag UI para que el jugador pueda ver que le quitaron vida
                     GameObject.FindWithTag("UI").SendMessage("QuitarVida", danioDeAtaque);
                     Debug.Log("Menos 5 de vida");
-                    quitarVida = true;             
+                    quitarVida = true;               
 
             }
 
@@ -274,7 +282,7 @@ public class Enemigo : MonoBehaviour
             animatorGuerrero.SetBool("finAnimacion", true);
             navEnemigo.destination = transform.position;
             enemigoEnCamino = false;
-            yield return new WaitForSeconds(0.92F);
+            yield return new WaitForSeconds(0.52F);
             Destroy(gameObject);
             GameObject.FindWithTag("UI").SendMessage("GanarMonedas", Random.Range(1, 5));
         }

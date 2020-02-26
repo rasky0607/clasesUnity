@@ -10,7 +10,7 @@ public class ControlUI : MonoBehaviour
     public static bool juegoEnPausa = false;//Esta variable es accesible desde cualquier script y sirve para indicar cuando el juego esta parado o no, como cuando termina o se muestra algun menu.
     public Text textNumMunicion;
     int numMunicion;
-    public int municionInicial=20;//Numero de flechas con las que se inicia
+    public int municionInicial=30;//Numero de flechas con las que se inicia
     public Text textNumVidaCorazon;
     public int numVidaCorazon;
     public int numVidaInicial=30;//puntos de vida con los que se inica
@@ -47,7 +47,7 @@ public class ControlUI : MonoBehaviour
     //Pociones
     public Text textNumPociones;
     int numPociones = 0;
-
+  
     // Use this for initialization
     void Start()
     {
@@ -67,7 +67,7 @@ public class ControlUI : MonoBehaviour
         foreach(GameObject item in conjuntoEnemigos)//Informamos a cada uno de los objetos con ese tag
             GameObject.FindGameObjectWithTag(item.tag).SendMessage("InformarAlEnemigoDeVidaDeJugador", numVidaCorazon);//Informamos al enemigo de la vida del jugador para que sepa cuando parar de atacar
         //Reloj
-        tiempoInicial = 300;
+        tiempoInicial = 360;//Tiempo limite de la partida
         tiempoAMostrarEnSegundos = tiempoInicial;
 
         //Recoger puntos de Respawn
@@ -84,7 +84,7 @@ public class ControlUI : MonoBehaviour
     }
 
     private void FixedUpdate()
-    {
+    {      
         //Reloj
         if (textContadorTiempo.text != "00:00")//El juego continua y el tiempo sigue corriendo
         {
@@ -94,9 +94,11 @@ public class ControlUI : MonoBehaviour
         }
         else if (textContadorTiempo.text == "00:00")// Perdio!
         {
+            //Enviamos mensaje a la clase MovimientoJugador par aque haga sonar el audio
+            GameObject.FindGameObjectWithTag("jugador").SendMessage("SonarDerrota");//No funciona por que se para el juego(Creo)
             //Fin del juego
             pintarMenu = true;//Pintamos el menu por lo que pararemos el juego
-            hasGanado = -1;//Indicamos que el jugador a perdido, lo que en el metodo 
+            hasGanado = -1;//Indicamos que el jugador a perdido, (lo que mostrara un mensaje al jugador de que ha perdido)
 
         }      
 
@@ -115,8 +117,10 @@ public class ControlUI : MonoBehaviour
         {
             GastarPocion();
         }
-        if (numVidaCorazon == 0 && textContadorTiempo.text != "00:00")//Cuando te han matado, por que tu vida es 0 pero aun tenias tiempo de juego
+        if (numVidaCorazon == 0 && textContadorTiempo.text != "00:00")//Has perdido,cuando te han matado, por que tu vida es 0 pero aun tenias tiempo de juego
         {
+            //Enviamos mensaje a la clase MovimientoJugador par aque haga sonar el audio
+            GameObject.FindGameObjectWithTag("jugador").SendMessage("SonarDerrota");//No funciona por que se para el juego(Creo)
             pintarMenuFinalPartida = true;//Si esto es verdad el  menu GUi pinta todo menos el boton continuar
             hasGanado = -1;//Indicamos que le jugador a perdido (lo que mostrara un mensaje al jugador de que ha perdido)
             pintarMenu = true;           
@@ -133,10 +137,13 @@ public class ControlUI : MonoBehaviour
         numeroEnemigosTotalesRestantes = GameObject.FindGameObjectsWithTag("enemigo").Length;//Cuantos  objetos con el tag enemigo tenemos en la escena actualmente.
         if (numeroEnemigosTotalesRestantes == 0)
         {
+            //Enviamos mensaje a la clase MovimientoJugador par aque haga sonar el audio
+            GameObject.FindGameObjectWithTag("jugador").SendMessage("SonarVictoria");//No funciona por que se para el juego(Creo)
             Debug.Log("GANASSTEEEEEEEEEEEEEEEEE!!!");          
             hasGanado = 1;//Indicamos que ha ganado la partida
             pintarMenuFinalPartida = true;//Indicamos que la partida se termino, para que pinte el menu correspondiente
             pintarMenu = true;//Ejecutamos el pintar menu GUI y a la vez en este mismo pausamos el juego
+            
         }
           
 
@@ -232,6 +239,10 @@ public class ControlUI : MonoBehaviour
         }
     }
 
+    public void ActivarPintarMenu() {
+        pintarMenu = true;
+    }
+
     //Calcula el tiempo pasado en segundos a minutos y segundos  para mostrarlo
     private void RelojTiempoJuego(float tiempoEnSegundos)
     {
@@ -282,6 +293,9 @@ public class ControlUI : MonoBehaviour
         Debug.Log(numVidaCorazon);
         if (numPociones>0 && numVidaCorazon < 30)//Si tiene pociones y la vida es menor de 30 (el tope)
         {
+            //Enviamos mensaje a la clase MovimientoJugador par aque haga sonar el audio
+            GameObject.FindGameObjectWithTag("jugador").SendMessage("SonarBeberPocion");
+            Debug.Log("SONANDO pocion");
             numPociones--;//Disminuimos o restamos una pociones
             textNumPociones.text = numPociones.ToString();
             int vidaFaltante = 30 - numVidaCorazon;//Comprobamos cuanta vida falta exactamente

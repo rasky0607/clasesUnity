@@ -7,7 +7,7 @@ public class MovimientoJugador : MonoBehaviour {
     public float velocidadAndar = 5F;
     public float velocidadRotacion = 40F;
     float posXArribaOAbajo = 0F;//Posicion de al rotar la camara hacia arriba o abajo con el raton
-    //prueba
+
     //------//
    public float posXArribaOAbajoMAX=-15F;
    public float posXArribaOAbajoMIN=20F;
@@ -16,12 +16,14 @@ public class MovimientoJugador : MonoBehaviour {
     public float LIMITMIN=-30f;
     //--------------//
     public GameObject camaraJugador;
+    public AudioSource sonidosVarios;//Sonido de pocion, de victoria y de derrota
     //Levantarse
     Quaternion orientacionInicial;
 
 
     // Use this for initialization
     void Start () {
+        sonidosVarios.clip = null;//Inicializamos los clip a null para añadirlos en codigo
         velocidadAndar = 5F;
         orientacionInicial = transform.rotation;
 	}
@@ -59,7 +61,29 @@ public class MovimientoJugador : MonoBehaviour {
         transform.SetPositionAndRotation(transform.position, orientacionInicial);
     }
 
+    public void SonarBeberPocion()
+    {
+        sonidosVarios.clip = Resources.Load<AudioClip>("Ej11/Sonidos/beberPocion");//Accedemos al recurso que va a reproducirse
+        sonidosVarios.Play();
+    }
 
+    public void SonarVictoria()
+    {
+        sonidosVarios.clip = Resources.Load<AudioClip>("Ej11/Sonidos/HasGanado");//Accedemos al recurso que va a reproducirse
+        sonidosVarios.Play();
+    }
+
+    public void SonarDerrota()
+    {
+        sonidosVarios.clip = Resources.Load<AudioClip>("Ej11/Sonidos/HasPerdido");//Accedemos al recurso que va a reproducirse
+        sonidosVarios.Play();
+    }
+
+    //Cuando el jugador recibe un golpe de espada
+    public void GolpeDeEspada() {
+        sonidosVarios.clip = Resources.Load<AudioClip>("Ej11/Sonidos/golpeEspada");//Accedemos al recurso que va a reproducirse
+        sonidosVarios.Play();
+    }
 
 
 }

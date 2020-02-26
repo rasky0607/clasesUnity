@@ -8,9 +8,10 @@ public class FlechaDiaparada : MonoBehaviour {
     float fuerza = 70F;
     Vector3 fuerzaAdelante;
     float cargaDeFuerza = 10;
-
+    public AudioSource sonidoFlechaDisparada;
     // Use this for initialization
     void Start () {
+        sonidoFlechaDisparada.clip = null;
         rbFlecha = gameObject.GetComponent<Rigidbody>();//Recogemos el rigibody de la flecha
         LanzarFlecha();
     }
@@ -22,6 +23,8 @@ public class FlechaDiaparada : MonoBehaviour {
 
     public void LanzarFlecha()
     {
+        sonidoFlechaDisparada.clip = Resources.Load<AudioClip>("Ej11/Sonidos/sonidoFlechaCortado");//Accedemos al recurso que va a reproducirse
+        sonidoFlechaDisparada.Play();//Reporducimos sonido
         //Debug.Log("Empujando Flecha! " + gameObject.name);
         fuerzaAdelante = transform.forward * fuerza * Time.deltaTime * cargaDeFuerza;//Cntrl Izq o btn Iz raton, es decir (0)
         rbFlecha.AddForce(fuerzaAdelante, ForceMode.Impulse);
