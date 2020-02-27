@@ -177,7 +177,7 @@ public class Enemigo : MonoBehaviour
                     }
                     //Sonido flecha golpeando
                     sonidosEnemigo.clip = Resources.Load<AudioClip>("Ej11/Sonidos/golpeFlechaEnMetal");//Accedemos al recurso que va a reproducirse
-                    sonidosEnemigo.volume = 0.6F;
+                    sonidosEnemigo.volume = 0.4F;
                     sonidosEnemigo.Play();
                 }
                 if (!enemigoEnCamino)//Si no lo esta persiguiendo al sufrir daño, lo empezara a perseguir

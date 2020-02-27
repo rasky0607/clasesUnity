@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PuntosDeRecargaMunicion : MonoBehaviour {
 
-    int cantidadRecargada = 10;
+    int cantidadRecargada = 20;
     public AudioSource sonidoRecarga;
     private void OnCollisionEnter(Collision collision)
     {

@@ -17,8 +17,8 @@ TagManager:
   - arma
   - puntoRespawn
   - SoldadoAzulMenu
-  - SoldadoAmarilloMenu
   - cofre
+  - SoldadoRojoMenu
   layers:
   - Default
   - TransparentFX

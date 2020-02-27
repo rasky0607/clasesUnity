@@ -10,7 +10,7 @@ public class ControlUI : MonoBehaviour
     public static bool juegoEnPausa = false;//Esta variable es accesible desde cualquier script y sirve para indicar cuando el juego esta parado o no, como cuando termina o se muestra algun menu.
     public Text textNumMunicion;
     int numMunicion;
-    public int municionInicial=30;//Numero de flechas con las que se inicia
+    public int municionInicial=35;//Numero de flechas con las que se inicia
     public Text textNumVidaCorazon;
     public int numVidaCorazon;
     public int numVidaInicial=30;//puntos de vida con los que se inica
@@ -96,9 +96,11 @@ public class ControlUI : MonoBehaviour
         {
             //Enviamos mensaje a la clase MovimientoJugador par aque haga sonar el audio
             GameObject.FindGameObjectWithTag("jugador").SendMessage("SonarDerrota");//No funciona por que se para el juego(Creo)
+            pintarMenuFinalPartida = true;//para que no pinte el boton de continuar al termianr
             //Fin del juego
-            pintarMenu = true;//Pintamos el menu por lo que pararemos el juego
             hasGanado = -1;//Indicamos que el jugador a perdido, (lo que mostrara un mensaje al jugador de que ha perdido)
+            pintarMenu = true;//Pintamos el menu por lo que pararemos el juego
+            
 
         }      
 

@@ -121,12 +121,12 @@ public class AperturaCofres : MonoBehaviour
         }
         else if (numMonedasGanadas < 10 && numMonedasGanadas > 0)//Si tiene moneda entre esos rangos
         {
-            float num = Random.Range(result - 80, valorMaximo / 4);//Entre el resultado y 37.5
+            float num = Random.Range(result - 65, valorMaximo / 4);//Entre el resultado y 37.5
             //Debug.Log("NIVEL 1 valores entre result->" + (result-30) + "y " + valorMaximo/4 + " ?");
             if (num > (valorMaximo / 4)/2)//Es decir mayor que 18,75
             {
                 //Gana pocion
-                //Debug.Log("NIVEL 1 Gana num->" + num + " es mayor que.. result->" + result + " ?");
+                Debug.Log("NIVEL 1 Gana num->" + num + " es mayor que.. result->" + result + " ?");
                 return true;
             }
             else
@@ -139,7 +139,7 @@ public class AperturaCofres : MonoBehaviour
         else if (numMonedasGanadas < 30 && numMonedasGanadas >= 10)//Si tiene moneda entre esos rangos
         {
             float num = Random.Range(result - 5, valorMaximo / 3);//Entre el resultado y 50
-            //Debug.Log("NIVEL 2 valores entre result->" + (result - 30) + "y " + valorMaximo / 3 + " ?");
+            Debug.Log("NIVEL 2 valores entre result->" + (result - 30) + "y " + valorMaximo / 3 + " ?");
             if (num > (valorMaximo / 3) /2)//Es decir mayor que 25
             {
                 //Gana pocion
@@ -149,14 +149,14 @@ public class AperturaCofres : MonoBehaviour
             else
             {
                 //No la gana
-                //Debug.Log("NIVEL 2 NO Gana num->" + num + " es mayor que.. result->" + result);
+                Debug.Log("NIVEL 2 NO Gana num->" + num + " es mayor que.. result->" + result);
                 return false;
             }
         }
-        else if (numMonedasGanadas < 70 && numMonedasGanadas >= 30)//Si tiene moneda entre esos rangos
+        else if (numMonedasGanadas < 65 && numMonedasGanadas >= 30)//Si tiene moneda entre esos rangos
         {
             float num = Random.Range(result , valorMaximo / 2);//Entre el resultado y 75
-            //Debug.Log("NIVEL 3 valores entre result->" + (result - 10) + "y " + valorMaximo / 2 + " ?");
+            Debug.Log("NIVEL 3 valores entre result->" + (result - 10) + "y " + valorMaximo / 2 + " ?");
             if (num > (valorMaximo / 2) / 2)//Es decir mayor que 37,5
             {
                 //Gana pocion
