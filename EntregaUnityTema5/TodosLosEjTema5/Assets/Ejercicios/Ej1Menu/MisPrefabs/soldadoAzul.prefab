@@ -280,7 +280,6 @@ GameObject:
   - component: {fileID: 95614714078815606}
   - component: {fileID: 54814108198101476}
   - component: {fileID: 65524335079379732}
-  - component: {fileID: 114654412060201012}
   m_Layer: 0
   m_Name: soldadoAzul
   m_TagString: SoldadoAzulMenu
@@ -960,17 +959,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &114654412060201012
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1662203810591962}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fba9f50b5d432e44a97b3fc180594a03, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!137 &137090291602736830
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

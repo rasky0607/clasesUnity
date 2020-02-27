@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
  como la vida, el dinero, el tiempo, municion, y menu GUI para salir parar el juego o optener ayuda*/
 public class ControlUI : MonoBehaviour
 {
-    public static bool juegoEnPausa = false;//Esta variable es accesible desde cualquier script y sirve para indicar cuando el juego esta parado o no, como cuando termina o se muestra algun menu.
+    public static bool juegoEnPausa = false;//indicar cuando el juego esta parado o no, como cuando termina o se muestra algun menu.
     public Text textNumMunicion;
     int numMunicion;
     public int municionInicial=35;//Numero de flechas con las que se inicia

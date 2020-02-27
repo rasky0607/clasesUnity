@@ -37,7 +37,6 @@ GameObject:
   - component: {fileID: 95081520857062296}
   - component: {fileID: 54369442085369448}
   - component: {fileID: 65133434307956634}
-  - component: {fileID: 114026840374957794}
   m_Layer: 0
   m_Name: soldadoRojo
   m_TagString: SoldadoRojoMenu
@@ -960,17 +959,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &114026840374957794
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1166299782880580}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 18afd556a2b64b148896c6eb0649ed37, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!137 &137717724861048272
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

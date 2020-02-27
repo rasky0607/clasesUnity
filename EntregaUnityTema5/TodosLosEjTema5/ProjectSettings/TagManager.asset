@@ -19,6 +19,10 @@ TagManager:
   - SoldadoAzulMenu
   - cofre
   - SoldadoRojoMenu
+  - puntos2
+  - puntos3
+  - puntos4
+  - puntos5
   layers:
   - Default
   - TransparentFX

@@ -9,9 +9,33 @@ EditorBuildSettings:
     path: Assets/Escenas/Ej1Menu.unity
     guid: 9f44e938bad3efb48ae0ad430b49d080
   - enabled: 1
-    path: Assets/Escenas/Ej11.unity
-    guid: 99c9720ab356a0642a771bea13969a05
-  - enabled: 1
     path: Assets/Escenas/Ej2.unity
     guid: 4c92c4938ee89b145acee7e23a8a6134
+  - enabled: 1
+    path: Assets/Escenas/Ej3.unity
+    guid: df67a3d6cfabf024dba4addc7a3c04b1
+  - enabled: 1
+    path: Assets/Escenas/Ej4.unity
+    guid: 844d143177485f04392772eae46efc46
+  - enabled: 1
+    path: Assets/Escenas/Ej5.unity
+    guid: 6c2bb31473eefb34eadae71a652ebc32
+  - enabled: 1
+    path: Assets/Escenas/Ej6.unity
+    guid: 50f8fb79378ee0f4e9399193910336b2
+  - enabled: 1
+    path: Assets/Escenas/Ej7.unity
+    guid: ec9767c68af8f9741a4bffe6850c2c5e
+  - enabled: 1
+    path: Assets/Escenas/Ej8.unity
+    guid: 4eb0a38cc8d7cb14a962ffe713615b3d
+  - enabled: 1
+    path: Assets/Escenas/Ej9.unity
+    guid: fd0f6275434a35d41a583ac3947aa9a0
+  - enabled: 1
+    path: Assets/Escenas/Ej10.unity
+    guid: a3915f7bcea64234a8d7cde5568db7d5
+  - enabled: 1
+    path: Assets/Escenas/Ej11.unity
+    guid: 99c9720ab356a0642a771bea13969a05
   m_configObjects: {}
