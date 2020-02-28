@@ -27,12 +27,14 @@ public class CambioColor : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other)
     {
+        Debug.Log("ENtre");
         if (!colorBloqueado)
             GetComponent<Renderer>().material.color = Color.blue;
     }
 
     private void OnTriggerExit(Collider other)
     {
+        Debug.Log("Sali");
         if (!colorBloqueado)
             GetComponent<Renderer>().material.color = colorInicial;
     }

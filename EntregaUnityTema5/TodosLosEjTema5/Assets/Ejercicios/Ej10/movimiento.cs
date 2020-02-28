@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 public class movimiento : MonoBehaviour {
 
     public float velocidadAndar = 1F;
@@ -11,8 +11,10 @@ public class movimiento : MonoBehaviour {
     string label = "Valor: ";   
     // Use this for initialization
     void Start () {
-		
-	}
+
+        Time.timeScale = 1;//Velocidad del juego normal   
+        label = "Valor: " + 1;
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -38,6 +40,12 @@ public class movimiento : MonoBehaviour {
         {
             juegoEnPausa = false;
             PausarJuego(juegoEnPausa);
+        }
+
+        if (Input.GetKey(KeyCode.Escape))
+        {
+            SceneManager.LoadScene("Ej1Menu");
+            
         }
     }
 

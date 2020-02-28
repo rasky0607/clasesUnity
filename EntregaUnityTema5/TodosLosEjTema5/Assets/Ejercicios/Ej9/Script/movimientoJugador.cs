@@ -38,8 +38,12 @@ public class movimientoJugador : MonoBehaviour {
     //Sonido
     public Toggle sonidoOnOff;
     public AudioSource musica;
+    //public AudioSource sonidoChoque;
+    public AudioSource sonidoExplosion;
+    public AudioSource sonidoperdidaVida;
     // Use this for initialization
     void Start () {
+        PausarJuego(false);//por si al reiniciar el juego se queda el estado a pausa
         animacionJugador = GetComponent<Animator>();
         texto3d.text =  numVidas.ToString();
         textPuntos.text="Puntos: "+puntosTotales.ToString("00:00");
@@ -51,14 +55,14 @@ public class movimientoJugador : MonoBehaviour {
         numCuboTipo5 = GameObject.FindGameObjectsWithTag("puntos5").Length;
         totalDeObstaculos = numCuboTipo3 + numCuboTipo5 + numEsferaTipo4 + numEsferaTipo2;//Cantidad total de objetos que puntuan
         textNumObjetosRestantes.text = "Numero de objetos restantes: " + totalDeObstaculos.ToString("00");
-        sonidoOnOff.isOn = false;
-        musica.volume = 0F;
+        sonidoOnOff.isOn = true;
+        musica.volume = 0.1F;
     }
 	
 	// Update is called once per frame
 	void Update () {
         if (sonidoOnOff.isOn)
-            musica.volume = 0.5F;
+            musica.volume = 0.1F;
         if (!sonidoOnOff.isOn)
             musica.volume = 0F;
         animacionJugador.SetBool("andar", false);
@@ -144,27 +148,36 @@ public class movimientoJugador : MonoBehaviour {
  
     private void OnCollisionEnter(Collision collision)
     {
+        
         switch (collision.gameObject.tag)
         {
             case "puntos2"://esfera
+                //sonidoChoque.volume = 0.4F;
+                //sonidoChoque.Play();
                 if (tipoColisionAnterior.Equals("nada"))//si no hay colision anterior aun
                 {
                     puntosTotales += esferaTipo2;
                 }
                 break;
             case "puntos3"://cubo
+                //sonidoChoque.volume = 0.4F;
+                //sonidoChoque.Play();
                 if (tipoColisionAnterior.Equals("nada"))//si no hay colision anterior aun
                 {
                     puntosTotales += cuboTipo3;
                 }
                 break;
             case "puntos4"://esfera
+                //sonidoChoque.volume = 0.4F;
+                //sonidoChoque.Play();
                 if (tipoColisionAnterior.Equals("nada"))//si no hay colision anterior aun
                 {
                     puntosTotales += esferaTipo4;
                 }
                 break;
             case "puntos5"://cubo
+                //sonidoChoque.volume = 0.4F;
+                //sonidoChoque.Play();
                 if (tipoColisionAnterior.Equals("nada"))//si no hay colision anterior aun
                 {
                     puntosTotales += cuboTipo5;
@@ -183,6 +196,8 @@ public class movimientoJugador : MonoBehaviour {
                 {
                     if (tipoColisionAnterior == "puntos3" || tipoColisionAnterior == "puntos5")//Es decir la anterior colision fueron cubos
                     {
+                        sonidoExplosion.volume = 1F;
+                        sonidoExplosion.Play();
                         puntosTotales += esferaTipo2/2;
                         Destroy(collision.gameObject);//Destruimos el objeto
                         totalDeObstaculos--;//Restamos un objeto menos que punta en la escena
@@ -207,6 +222,8 @@ public class movimientoJugador : MonoBehaviour {
                 {
                     if (tipoColisionAnterior == "puntos2" || tipoColisionAnterior == "puntos4")//Es decir la anterior colision fueron esferas
                     {
+                        sonidoExplosion.volume = 1F;
+                        sonidoExplosion.Play();
                         puntosTotales += cuboTipo3/2;
                         Destroy(collision.gameObject);
                         totalDeObstaculos--;//Restamos un objeto menos que punta en la escena
@@ -232,6 +249,8 @@ public class movimientoJugador : MonoBehaviour {
                 {
                     if (tipoColisionAnterior == "puntos3" || tipoColisionAnterior == "puntos5")//Es decir la anterior colision fueron cubos
                     {
+                        sonidoExplosion.volume = 1F;
+                        sonidoExplosion.Play();
                         puntosTotales += esferaTipo4/2;
                         Destroy(collision.gameObject);
                         totalDeObstaculos--;//Restamos un objeto menos que punta en la escena
@@ -257,6 +276,8 @@ public class movimientoJugador : MonoBehaviour {
                 {
                     if (tipoColisionAnterior == "puntos2" || tipoColisionAnterior == "puntos4")//Es decir la anterior colision fueron esferas
                     {
+                        sonidoExplosion.volume = 1F;
+                        sonidoExplosion.Play();
                         Debug.Log("SUMA?");
                         puntosTotales += cuboTipo5 / 2;//Suma la mitad
                         Destroy(collision.gameObject);
@@ -291,6 +312,8 @@ public class movimientoJugador : MonoBehaviour {
         Debug.Log("Diferencia entre pActuales "+puntosTotales+" y PAnteriores "+puntosAnteriores+" = "+result+" "+ "numero de veces restado 3 puntos al jugador " + n);
         if (numVidas > 0)
         {
+            sonidoperdidaVida.volume = 0.8F;
+            sonidoperdidaVida.Play();
             numVidas = numVidas - n;
             texto3d.text ="Vidas: "+ numVidas.ToString();
         }
