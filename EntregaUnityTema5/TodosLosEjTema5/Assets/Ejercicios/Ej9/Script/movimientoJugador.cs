@@ -34,6 +34,10 @@ public class movimientoJugador : MonoBehaviour {
     //texto resultado juego
     public Text textResultJuego;
     public Text textNumObjetosRestantes;
+
+    //Sonido
+    public Toggle sonidoOnOff;
+    public AudioSource musica;
     // Use this for initialization
     void Start () {
         animacionJugador = GetComponent<Animator>();
@@ -47,10 +51,16 @@ public class movimientoJugador : MonoBehaviour {
         numCuboTipo5 = GameObject.FindGameObjectsWithTag("puntos5").Length;
         totalDeObstaculos = numCuboTipo3 + numCuboTipo5 + numEsferaTipo4 + numEsferaTipo2;//Cantidad total de objetos que puntuan
         textNumObjetosRestantes.text = "Numero de objetos restantes: " + totalDeObstaculos.ToString("00");
+        sonidoOnOff.isOn = false;
+        musica.volume = 0F;
     }
 	
 	// Update is called once per frame
 	void Update () {
+        if (sonidoOnOff.isOn)
+            musica.volume = 0.5F;
+        if (!sonidoOnOff.isOn)
+            musica.volume = 0F;
         animacionJugador.SetBool("andar", false);
         //Desplazamiendo del personaje
         if (Input.GetAxis("Vertical") != 0)

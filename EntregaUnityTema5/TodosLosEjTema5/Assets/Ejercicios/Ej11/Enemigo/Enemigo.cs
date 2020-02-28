@@ -60,9 +60,10 @@ public class Enemigo : MonoBehaviour
         //Patrulla
         distanciaPatrulla = 12F;
         movimientoPatrulla = true;
-        sonidosEnemigo.clip = null;
+        sonidosEnemigo.clip = null;   
 
     }
+
 
     // Update is called once per frame
     void Update()
@@ -83,7 +84,8 @@ public class Enemigo : MonoBehaviour
             }
         }
         else if (!enemigoVivo)//Si muere el enemigo
-        {
+        {          
+            //GameObject.FindWithTag("jugador").SendMessage("SonidoDeMuerteEnemigo");//enviamos u n mensaje para reproducir el sonido de muerte de enemigo
             StartCoroutine("EnemigoMuerto");
         }
         else if (vidaJugador == 0)//Si el jugador a muerto y el juego no esta pausado
@@ -177,7 +179,7 @@ public class Enemigo : MonoBehaviour
                     }
                     //Sonido flecha golpeando
                     sonidosEnemigo.clip = Resources.Load<AudioClip>("Ej11/Sonidos/golpeFlechaEnMetal");//Accedemos al recurso que va a reproducirse
-                    sonidosEnemigo.volume = 0.4F;
+                    sonidosEnemigo.volume = 0.2F;
                     sonidosEnemigo.Play();
                 }
                 if (!enemigoEnCamino)//Si no lo esta persiguiendo al sufrir daño, lo empezara a perseguir
@@ -276,15 +278,20 @@ public class Enemigo : MonoBehaviour
     {
         if (vidaJugador > 0 && !juegoEnPausa)
         {
-            Debug.Log("muerto");
+            Debug.Log("muerto");          
             //Ha muerto
             animatorGuerrero.SetBool("muerto", true);//Animacion de morir 
             animatorGuerrero.SetBool("finAnimacion", true);
             navEnemigo.destination = transform.position;
             enemigoEnCamino = false;
-            yield return new WaitForSeconds(0.52F);
+            GameObject.FindWithTag("jugador").SendMessage("SonidoDeMuerteEnemigo");//enviamos u n mensaje para reproducir el sonido de muerte de enemigo
+            yield return new WaitForSeconds(0.43F);
             Destroy(gameObject);
-            GameObject.FindWithTag("UI").SendMessage("GanarMonedas", Random.Range(1, 5));
+            int monedas = Random.Range(1, 5);
+            Debug.Log("Ha caido "+monedas);
+            GameObject.FindWithTag("UI").SendMessage("GanarMonedas",monedas);
+           
+
         }
 
 

@@ -64,7 +64,7 @@ public class MovimientoJugador : MonoBehaviour {
     public void SonarBeberPocion()
     {
         sonidosVarios.clip = Resources.Load<AudioClip>("Ej11/Sonidos/beberPocion");//Accedemos al recurso que va a reproducirse
-        sonidosVarios.volume = 1F;
+        sonidosVarios.volume = 0.7F;
         sonidosVarios.Play();
     }
 
@@ -83,7 +83,14 @@ public class MovimientoJugador : MonoBehaviour {
     //Cuando el jugador recibe un golpe de espada
     public void GolpeDeEspada() {
         sonidosVarios.clip = Resources.Load<AudioClip>("Ej11/Sonidos/golpeEspada");//Accedemos al recurso que va a reproducirse
-        sonidosVarios.volume = 0.5F;
+        sonidosVarios.volume = 0.2F;
+        sonidosVarios.Play();
+    }
+
+    public void SonidoDeMuerteEnemigo() {
+        //sonidoMuerteEnemigo
+        sonidosVarios.clip = Resources.Load<AudioClip>("Ej11/Sonidos/sonidoMuerteEnemigoCortado");//Accedemos al recurso que va a reproducirse
+        sonidosVarios.volume = 0.2F;
         sonidosVarios.Play();
     }
 

@@ -47,7 +47,10 @@ public class ControlUI : MonoBehaviour
     //Pociones
     public Text textNumPociones;
     int numPociones = 0;
-  
+
+    //Script de arco
+    //public FlechaAnimaDisparo scriptArco;//Para desactivar el script del arco cuando estamso en pausa
+
     // Use this for initialization
     void Start()
     {
@@ -80,7 +83,7 @@ public class ControlUI : MonoBehaviour
 
         //Pociones
         textNumPociones.text = numPociones.ToString();
-       
+
     }
 
     private void FixedUpdate()
@@ -185,7 +188,7 @@ public class ControlUI : MonoBehaviour
     }
 
     private void Menu()
-    {      
+    {       
         PausarJuego(true);//Paramos el juego
         int ancho = 200;
         int alto = 30;
@@ -200,11 +203,9 @@ public class ControlUI : MonoBehaviour
             //Al hacer click en este boton "Continuar" Continuamos el juego por lo que dejamos de pintar el menu y reanudamos el juego
             if (GUI.Button(areaButn2, new GUIContent("Continuar")))
             {
-                pintarMenu = false;//Dejamos de pintar el menu GUI
-                                   //juegoEnPausa = false;//Quitamos pausa del juego
-                                   // NotificarJuegoEnPausa();
+                pintarMenu = false;//Dejamos de pintar el menu GUI                                
                 PausarJuego(false);//Al hacer click en el boton continuar reanudamos el juego.
-
+                //scriptArco.enabled = true;//Activamos el script del arco
             }
         }
         else {//En caso de que la partida finalizase, es decir pintarMenuFinalParida sea true

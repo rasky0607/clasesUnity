@@ -6,25 +6,57 @@ using UnityEngine.UI;
 
 public class GestionMenu : MonoBehaviour {
 
-   string escena;//Este recogera el nombre de la escena a la que se va dirigir al dar a jugar por defecto el Ej2
-   public Image imagenDemuestra;
-   public Text textExplicativo;
-	// Use this for initialization
-	void Start () {
+    string escena;//Este recogera el nombre de la escena a la que se va dirigir al dar a jugar por defecto el Ej2
+    public Image imagenDemuestra;
+    public Text textExplicativo;
+    //Sonido
+    public Toggle sonidoOnOff;
+    public AudioSource musica;
+    public AudioSource sonidoEspada;
+    bool activarSonidoEspada = true;
+    // Use this for initialization
+    void Start() {
         imagenDemuestra.sprite = null;
         imagenDemuestra.sprite = Resources.Load<Sprite>("Ej1Menu/img/mando");//Accedemos al recurso que va a reproducirse
         escena = null;
         textExplicativo.text = "";
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+        sonidoOnOff.isOn = true;
+        musica.volume = 0.5F;
+        sonidoEspada.volume = 0.05F;
+    }
+
+    // Update is called once per frame
+    void Update() {
+        if (sonidoOnOff.isOn)
+        {
+            musica.volume = 0.5F;
+            sonidoEspada.volume = 0.05F;
+        }
+        if (!sonidoOnOff.isOn)
+        {
+            musica.volume = 0F;
+            sonidoEspada.volume = 0F;
+        }
+
+        StartCoroutine("SonidoEspada");
+    }
     public void Salir()
     {
         Application.Quit();
     }
+
+    IEnumerator SonidoEspada() {
+        if (activarSonidoEspada)//Esta  bandera nos permite quitar vida solo cada 4 segundos de forma continua(de lo contrario solo esperaria 4 segundos la primera vez)
+        {
+            activarSonidoEspada = false;
+            
+            yield return new WaitForSeconds(1.2F);//esperamos 1.8 segundos 
+            sonidoEspada.Play();
+            activarSonidoEspada = true;
+
+        }
+    }
+
     public void Jugar()
     {
         if (escena != null)
@@ -94,8 +126,8 @@ public class GestionMenu : MonoBehaviour {
 
     public void clickEj10()
     {
-        //imagenDemuestra.sprite = Resources.Load<Sprite>("Ej1Menu/img/Ej10");//Accedemos al recurso que va a reproducirse
-        textExplicativo.text = "Ej10:En ejercicio al presionar la tecla A colocamos Time.Scale a 1 y con espacio a 0, podemos mover el objeto con la flechas derecha e izquierda y un label nos informara del valor de Time.Scale ";
+        imagenDemuestra.sprite = Resources.Load<Sprite>("Ej1Menu/img/Ej10");//Accedemos al recurso que va a reproducirse
+        textExplicativo.text = "Ej10:En ejercicio al presionar la tecla P colocamos Time.Scale a 1 y con espacio a 0, podemos mover el objeto con la flechas derecha e izquierda y un label nos informara del valor de Time.Scale ";
         escena = "Ej10";
     }
 
